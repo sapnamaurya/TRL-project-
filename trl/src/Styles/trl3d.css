@@ -1,0 +1,183 @@
+/* BACKGROUND SCENE */
+.containers {
+  width: 100%;
+  height: 140vh;
+  overflow: hidden;
+  font-family: "Segoe UI", Arial;
+  background: radial-gradient(circle at 20% 20%, #e3ecff, #f7fbff 60%);
+  perspective: 1200px;
+}
+
+/* PAGE TRANSITION DEPTH */
+.screen {
+  position: absolute;
+  width: 100%;
+  padding-top: 30px;
+  text-align: center;
+
+  transform: translateY(100%) scale(0.9) rotateX(15deg);
+  opacity: 0;
+
+  pointer-events: none;        /* ⭐ VERY IMPORTANT */
+  z-index: 0;                  /* ⭐ reset stacking */
+
+  transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.screen.active {
+  transform: translateY(0) scale(1) rotateX(0deg);
+  opacity: 1;
+
+  pointer-events: auto;        /* only active screen clickable */
+  z-index: 5;                  /* bring front */
+}
+
+
+/* TITLES */
+h1 {
+  color: #1b3a57;
+  letter-spacing: 0.5px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+.subtitle {
+  color: #2a7fff;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* TABLE 3D BASE */
+.matrix {
+  height: 67vh;
+  margin: 40px auto;
+  width: 80%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: rotateX(6deg);
+  transition: 0.5s;
+}
+
+/* TABLE GLOW ON HOVER */
+.matrix:hover {
+  transform: rotateX(0deg) scale(1.01);
+}
+
+/* CELLS */
+.matrix td {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 20px 14px;
+  font-size: 20px;
+  transition: 0.25s;
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(180deg, #f6f9ff, #eef3ff);
+}
+.title {
+  font-weight: bold;
+  font-size: 30px;
+  color: #1b3a57;
+  letter-spacing: 0.5px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+/* LIGHT SHINE ANIMATION */
+.matrix td::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -50%;
+  width: 50%;
+  height: 300%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+  transform: rotate(25deg);
+  opacity: 0;
+}
+
+.matrix td:hover::after {
+  animation: shine 0.8s forwards;
+}
+
+@keyframes shine {
+  0% {
+    left: -60%;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+}
+
+/* POP OUT EFFECT */
+.matrix td:hover {
+  background: #2a7fff;
+  color: white;
+  transform: translateY(-12px) scale(1.08);
+  z-index: 10;
+  box-shadow:
+    0 15px 30px rgba(42, 127, 255, 0.45),
+    0 0 15px rgba(42, 127, 255, 0.6);
+}
+
+/* LEVEL 1 TEXT */
+.levelTable td {
+  text-align: left;
+  line-height: 1.7;
+  font-size: 13px;
+}
+.levelTable b {
+  color: #1b3a57;
+  font-size: 18px;
+}
+
+/* BUTTON 3D */
+.nextBtn,
+.backBtn {
+  margin-top: 25px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2a7fff, #00a8ff);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+.level3 {
+  position: fixed;
+  bottom: 60px;
+  right: 30px;
+}
+.nextBtn:hover,
+.backBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+}
+
+.nextBtn:active,
+.backBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .matrix td {
+    font-size: 12px;
+    padding: 12px;
+  }
+}

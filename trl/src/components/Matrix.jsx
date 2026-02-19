@@ -1,6 +1,6 @@
 export default function Matrix() {
   return (
-    <section className="matrix">
+    <section className="matrixs">
       <h2>Supported Evaluation Modes</h2>
       <table>
         <thead>

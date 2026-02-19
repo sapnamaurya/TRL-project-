@@ -11,23 +11,24 @@ export default function Home() {
       <Header />
 
       <section className="intro">
-        <h1>Technology Readiness & Development Time Evaluation Platform</h1>
+        <h1 className="text-3xl font-bold text-center">
+          Technology Readiness & Development Time Evaluation Platform
+        </h1>
         <p>
           Evaluate technology maturity and predict deployment time using
           structured questionnaires, assessment data and AI-based prediction
           models.
         </p>
-      <button
-  className="primaryBtn"
-  onClick={() =>
-    document.getElementById("modules").scrollIntoView({
-      behavior: "smooth"
-    })
-  }
->
-  Start Evaluation
-</button>
-
+        <button
+          className="primaryBtn"
+          onClick={() =>
+            document.getElementById("modules").scrollIntoView({
+              behavior: "smooth",
+            })
+          }
+        >
+          Start Evaluation
+        </button>
       </section>
 
       <Workflow />
