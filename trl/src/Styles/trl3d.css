@@ -1,10 +1,9 @@
-/* BACKGROUND SCENE */
 .containers {
   width: 100%;
-  height: 140vh;
+  height: 120vh;
   overflow: hidden;
   font-family: "Segoe UI", Arial;
-  background: radial-gradient(circle at 20% 20%, #e3ecff, #f7fbff 60%);
+background: radial-gradient(circle,rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
   perspective: 1200px;
 }
 
@@ -44,7 +43,26 @@ h1 {
   font-weight: 600;
   margin-bottom: 25px;
 }
+/* GROUND FLOOR PLATFORM */
+.matrix{
+  position:relative;
+  z-index:10;
+}
 
+/* FLOOR BASE SHADOW */
+.matrix::after{
+  content:"";
+  position:absolute;
+  bottom:-60px;
+  left:5%;
+  width:90%;
+  height:80px;
+  background:radial-gradient(ellipse at center,
+            rgba(0,0,0,.25),
+            transparent 70%);
+  filter:blur(12px);
+  z-index:-1;
+}
 /* TABLE 3D BASE */
 .matrix {
   height: 67vh;
@@ -56,21 +74,19 @@ h1 {
   backdrop-filter: blur(10px);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      box-shadow: 2px 2px 20px 8px #585252;
   transform: rotateX(6deg);
   transition: 0.5s;
 }
 
 /* TABLE GLOW ON HOVER */
 .matrix:hover {
-  transform: rotateX(0deg) scale(1.01);
+  transform: rotateX(0deg) scale(1);
 }
 
 /* CELLS */
 .matrix td {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid #d6c0c0;
   padding: 20px 14px;
   font-size: 20px;
   transition: 0.25s;
@@ -101,6 +117,114 @@ h1 {
   );
   transform: rotate(25deg);
   opacity: 0;
+}
+/* Fix click blocking */
+.screen{
+  pointer-events:none;
+}
+.screen.active{
+  pointer-events:auto;
+}
+/* STACK CONTAINER — same width as table */
+.levelStack{
+  width:80%;
+  margin:-20px auto 0;   /* attaches to table */
+  height:178px;
+  position:relative;
+  perspective:1500px;
+}
+
+/* COMMON LAYER STYLE */
+.stackLayer{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:70px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:2px;
+  cursor:pointer;
+  color:#fff;
+
+  background:linear-gradient(145deg,#0a0a0a,#000000);
+  box-shadow:
+    0 25px 45px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.12);
+
+  transform-origin:top center;
+  transition:.5s cubic-bezier(.25,.8,.25,1);
+}
+
+/* DEPTH POSITIONING (real stack illusion) */
+.l1{
+  top:0;
+  transform:rotateX(70deg) translateZ(-10px);
+  z-index:3;
+}
+.l2{
+  top:45px;
+  transform:rotateX(70deg) translateZ(-40px) scale(.96);
+  opacity:.85;
+  z-index:2;
+}
+.l3{
+ top:120px;
+  transform:rotateX(70deg) translateZ(-40px) scale(.96);
+  opacity:.85;
+  z-index:1;
+}
+
+/* HOVER = lift page */
+.stackLayer:hover{
+  transform:rotateX(15deg) translateY(-20px) scale(1.02);
+  background:linear-gradient(135deg,#2a7fff,#00c2ff);
+  box-shadow:
+    0 50px 90px rgba(0,0,0,.9),
+    0 0 35px rgba(42,127,255,.8);
+}
+
+/* ACTIVE SELECTED PAGE */
+.stackLayer.active{
+  transform:rotateX(0deg) translateY(-35px) scale(1.03);
+  background:linear-gradient(135deg,#2a7fff,#00c2ff);
+  box-shadow:
+    0 80px 150px rgba(42,127,255,.9);
+}
+/* LEVEL STACK SELECTOR */
+.levelSelector{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:40px;
+  perspective:900px;
+}
+
+.levelCard{
+  padding:16px 42px;
+  font-weight:600;
+  border-radius:14px;
+  background:linear-gradient(145deg,#ffffff,#e9f1ff);
+  cursor:pointer;
+  transition:.35s;
+  transform:rotateX(12deg);
+  border:1px solid rgba(42,127,255,.25);
+  box-shadow:0 12px 25px rgba(0,0,0,.18);
+}
+
+.levelCard:hover{
+  transform:translateY(-8px) scale(1.05);
+  box-shadow:0 25px 45px rgba(42,127,255,.35);
+}
+
+.levelCard.active{
+  background:linear-gradient(135deg,#2a7fff,#00c2ff);
+  color:white;
+  transform:translateY(-12px) scale(1.08);
+  box-shadow:0 30px 60px rgba(42,127,255,.55);
 }
 
 .matrix td:hover::after {

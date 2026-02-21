@@ -8,12 +8,10 @@ export default function TRLLevels() {
     <div className="containers">
       {/* ---------------- GROUND LEVEL ---------------- */}
       <div className={`screen ${level === "ground" ? "active" : ""}`}>
-        
         <h1 className="title">Integrated Solution For TRL & Time Estimation</h1>
-     
-          <h2 className="subtitle">Ground Level</h2>
-        
-     
+
+        <h2 className="subtitle">Ground Level</h2>
+
         <table className="matrix">
           <tbody>
             <tr>
@@ -44,9 +42,29 @@ export default function TRLLevels() {
             </tr>
           </tbody>
         </table>
-         <button className="nextBtn" onClick={() => setLevel("level1")}>
-            Go To Level-1
-          </button>
+        {/* ---------- STACK LEVEL SELECTOR ---------- */}
+        <div className="levelStack">
+          <div
+            className={`stackLayer l1 ${level === "level1" ? "active" : ""}`}
+            onClick={() => setLevel("level1")}
+          >
+            LEVEL 1
+          </div>
+
+          <div
+            className={`stackLayer l2 ${level === "level2" ? "active" : ""}`}
+            onClick={() => setLevel("level2")}
+          >
+            LEVEL 2
+          </div>
+
+          <div
+            className={`stackLayer l3 ${level === "level3" ? "active" : ""}`}
+            onClick={() => setLevel("level3")}
+          >
+            LEVEL 3
+          </div>
+        </div>
       </div>
 
       {/* ---------------- LEVEL 1 ---------------- */}
@@ -220,12 +238,24 @@ export default function TRLLevels() {
           </tbody>
         </table>
 
-        <button className="backBtn" onClick={() => setLevel("level2")}>
-          Level 2
-        </button>
+        <div className="levelStack">
+          <div
+            className={`stackLayer l1 ${level === "level2" ? "active" : ""}`}
+            onClick={() => setLevel("level2")}
+          >
+            LEVEL 2
+          </div>
+
+          <div
+            className={`stackLayer l2 ${level === "level3" ? "active" : ""}`}
+            onClick={() => setLevel("level3")}
+          >
+            LEVEL 3
+          </div>
+        </div>
       </div>
       <div className={`screen level1 ${level === "level2" ? "active" : ""}`}>
-        <h1 className="title">Software For TRL & Time Estimation</h1>
+        <h1 className="title">Language For TRL & Time Estimation</h1>
         <h2 className="subtitle">Level-2</h2>
 
         <table className="matrix levelTable">
@@ -234,13 +264,6 @@ export default function TRLLevels() {
               <td>
                 <b>TRL Tool</b>
                 <br />
-                ESA TRL Calculator
-                <br />
-                NASA TRL Worksheet / Calculator
-                <br />
-                Horizon Europe TRL Self-Assessment Tool
-                <br />
-                <br />
                 <i>Tech:</i> Javascript, Excel VBA + MATLAB/Python, PostgreSQL /
                 Oracle / SQL
               </td>
@@ -248,37 +271,19 @@ export default function TRLLevels() {
               <td>
                 <b>TRL Assessment</b>
                 <br />
-                ESA TRL Calculator
-                <br />
-                Canada Clean-Growth TRL Assessment Tool
-                <br />
-                eG Technology TRL Assessment
-                <br />
                 <br />
                 <i>Tech:</i> JavaScript, Python/.NET, Java stack (ESA)
               </td>
 
               <td>
                 <b>Standalone TRL implementation</b>
-                <br />
-                ESA TRL Calculator
-                <br />
-                NASA TRL Calculator (DAU Tool)
-                <br />
-                Canada Innovation TRL Assessment Tool
-                <br />
+                <br /> 
                 <br />
                 <i>Tech:</i> JavaScript, Excel VBA, HTML, CSS
               </td>
 
               <td>
                 <b>TRL with ERP</b>
-                <br />
-                Siemens Teamcenter
-                <br />
-                PTC Windchill
-                <br />
-                SAP PLM
                 <br />
                 <br />
                 <i>Tech:</i> Java, C++, JS, Angular, ABAP, SAP HANA SQL
@@ -287,24 +292,12 @@ export default function TRLLevels() {
               <td>
                 <b>TRL with AI/ML</b>
                 <br />
-                CARE AI Evaluator
-                <br />
-                ESA AI Tools
-                <br />
-                eG Technology Assessment
-                <br />
                 <br />
                 <i>Tech:</i> Python, MATLAB, JavaScript
               </td>
 
               <td>
                 <b>TRL with AI/ML social media</b>
-                <br />
-                READINESSnavigator
-                <br />
-                Kooplex Platform
-                <br />
-                DLR RCE Environment
                 <br />
                 <br />
                 <i>Tech:</i> Java, Python, Docker, Eclipse RCP
@@ -315,24 +308,12 @@ export default function TRLLevels() {
               <td>
                 <b>Time Estimation Tool</b>
                 <br />
-                Jira
-                <br />
-                Microsoft Project
-                <br />
-                Oracle Primavera P6
-                <br />
                 <br />
                 <i>Tech:</i> JavaScript, C/Java/Python, MATLAB
               </td>
 
               <td>
                 <b>Time Estimation Assessment</b>
-                <br />
-                SEER-SEM
-                <br />
-                SLIM Estimate
-                <br />
-                PRICE TruePlanning
                 <br />
                 <br />
                 <i>Tech:</i> C++, C#, .NET
@@ -341,12 +322,6 @@ export default function TRLLevels() {
               <td>
                 <b>Standalone Time implementation</b>
                 <br />
-                COCOMO II Tool
-                <br />
-                SEER SIM
-                <br />
-                SUM (QSM)
-                <br />
                 <br />
                 <i>Tech:</i> C/C++, Python, MATLAB, JavaScript
               </td>
@@ -354,24 +329,12 @@ export default function TRLLevels() {
               <td>
                 <b>Time Estimation with ERP</b>
                 <br />
-                SAP S/4HANA
-                <br />
-                Odoo ERP
-                <br />
-                Dynamics 365
-                <br />
                 <br />
                 <i>Tech:</i> ABAP, SAP HANA DB, .NET, PostgreSQL
               </td>
 
               <td>
                 <b>Time Estimation with AI/ML</b>
-                <br />
-                Forecast AI
-                <br />
-                SEERai
-                <br />
-                ALICE Technologies
                 <br />
                 <br />
                 <i>Tech:</i> Python, GraphQL, C++
@@ -392,24 +355,12 @@ export default function TRLLevels() {
               <td>
                 <b>TRL & Time Estimation Tool</b>
                 <br />
-                NASA TAT-C + OpenMDAO
-                <br />
-                SEER SEM
-                <br />
-                ANSYS ModelCenter
-                <br />
                 <br />
                 <i>Tech:</i> Python, C++, .NET, MATLAB
               </td>
 
               <td>
                 <b>TRL & Time Estimation Assessment</b>
-                <br />
-                Siemens TeamCenter + Simcenter
-                <br />
-                Ansys ModelCenter
-                <br />
-                IBM Engineering Lifecycle Management
                 <br />
                 <br />
                 <i>Tech:</i> C++, Python, Java, Eclipse RCP
@@ -418,20 +369,12 @@ export default function TRLLevels() {
               <td>
                 <b>Standalone TRL & Time implementation</b>
                 <br />
-                ESA TRL Calculator + COCOMO system
-                <br />
                 <br />
                 <i>Tech:</i> Python, Java, MATLAB, SQL DB
               </td>
 
               <td>
                 <b>TRL & Time with ERP</b>
-                <br />
-                Teamcenter + SAP ERP
-                <br />
-                Primavera P6 + ERP
-                <br />
-                SAP PPM
                 <br />
                 <br />
                 <i>Tech:</i> Java, C++, .NET, Oracle DB, ABAP
@@ -440,20 +383,12 @@ export default function TRLLevels() {
               <td>
                 <b>TRL & Time with AI/ML</b>
                 <br />
-                IBM Lifecycle Management
-                <br />
-                Predictive Engineering Analytics
-                <br />
-                NASA OpenMBEE
-                <br />
                 <br />
                 <i>Tech:</i> Java, C++, JavaScript, Python
               </td>
 
               <td>
                 <b>TRL & Time with AI/ML social media</b>
-                <br />
-                Predictive Analytics + Primavera
                 <br />
                 <br />
                 <i>Tech:</i> Python, C++, Java, PL/SQL
@@ -462,12 +397,17 @@ export default function TRLLevels() {
           </tbody>
         </table>
 
-        <button className="backBtn level3" onClick={() => setLevel("level3")}>
-          Level 3
-        </button>
+        <div className="levelStack">
+          <div
+            className={`stackLayer l1 ${level === "level3" ? "active" : ""}`}
+            onClick={() => setLevel("level3")}
+          >
+            LEVEL 3
+          </div>
+        </div>
       </div>
       <div className={`screen level1 ${level === "level3" ? "active" : ""}`}>
-        <h1 className="title">Software For TRL & Time Estimation</h1>
+        <h1 className="title">Hardware For TRL & Time Estimation</h1>
         <h2 className="subtitle">Level-3</h2>
 
         <table className="matrix levelTable">
@@ -675,11 +615,136 @@ export default function TRLLevels() {
             </tr>
           </tbody>
         </table>
-
-        <button className="backBtn" onClick={() => setLevel("ground")}>
-          Back to Ground
-        </button>
+        <div className="levelStack">
+          <div
+            className={`stackLayer l1 ${level === "ground" ? "active" : ""}`}
+            onClick={() => setLevel("ground")}
+          >
+            GROUND LEVEL
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+// import React, { useState } from "react";
+// import "../Styles/trl3d.css";
+
+// export default function TRLLevels() {
+//   const [level, setLevel] = useState("ground");
+
+//   return (
+//     <div className="containers">
+
+//       {/* ---------------- GROUND LEVEL ---------------- */}
+//       <div className={`screen ${level === "ground" ? "active" : ""}`}>
+//         <h1 className="title">Integrated Solution For TRL & Time Estimation</h1>
+//         <h2 className="subtitle">Ground Level</h2>
+
+//         <table className="matrix">
+//           <tbody>
+//             <tr>
+//               <td>Technology Readiness Level Tool</td>
+//               <td>Technology Readiness Level Assessment</td>
+//               <td>Standalone Technology Readiness Level</td>
+//               <td>Technology Readiness Level ERP</td>
+//               <td>Technology Readiness Level AI/ML</td>
+//               <td>Technology Readiness Level Social</td>
+//             </tr>
+
+//             <tr>
+//               <td>Time Tool</td>
+//               <td>Time Assessment</td>
+//               <td>Standalone Time</td>
+//               <td>Time ERP</td>
+//               <td>Time AI/ML</td>
+//               <td>Time Social</td>
+//             </tr>
+
+//             <tr>
+//               <td>TRL & Time Tool</td>
+//               <td>TRL & Time Assessment</td>
+//               <td>Standalone Combined</td>
+//               <td>Combined ERP</td>
+//               <td>Combined AI/ML</td>
+//               <td>Combined Social</td>
+//             </tr>
+//           </tbody>
+//         </table>
+
+//         {/* 🔥 STACK SELECTOR */}
+//         <div className="stackWrapper">
+//           <div className="stackCard level3" onClick={() => setLevel("level3")}>
+//             <span>Level 3</span>
+//           </div>
+
+//           <div className="stackCard level2" onClick={() => setLevel("level2")}>
+//             <span>Level 2</span>
+//           </div>
+
+//           <div className="stackCard level1" onClick={() => setLevel("level1")}>
+//             <span>Level 1</span>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ---------------- LEVEL 1 ---------------- */}
+//       <div className={`screen ${level === "level1" ? "active" : ""}`}>
+//         <h1 className="title">Software For TRL & Time Estimation</h1>
+//         <h2 className="subtitle">Level-1</h2>
+
+//         <table className="matrix levelTable">
+//           <tbody>
+//             <tr>
+//               <td><b>TRL Tool</b><br/>ESA TRL Calculator<br/>NASA TRL Worksheet<br/>Horizon Europe Tool</td>
+//               <td><b>TRL Assessment</b><br/>Clean-Growth Tool<br/>eG Technology Assessment</td>
+//               <td><b>Standalone TRL</b><br/>NASA DAU Tool<br/>Innovation Assessment</td>
+//               <td><b>TRL ERP</b><br/>Siemens Teamcenter<br/>SAP PLM</td>
+//               <td><b>TRL AI/ML</b><br/>CARE AI<br/>ESA AI Evaluator</td>
+//               <td><b>TRL Social</b><br/>READINESSnavigator<br/>Kooplex Platform</td>
+//             </tr>
+//           </tbody>
+//         </table>
+
+//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
+//       </div>
+
+//       {/* ---------------- LEVEL 2 ---------------- */}
+//       <div className={`screen ${level === "level2" ? "active" : ""}`}>
+//         <h1 className="title">Software For TRL & Time Estimation</h1>
+//         <h2 className="subtitle">Level-2</h2>
+
+//         <table className="matrix levelTable">
+//           <tbody>
+//             <tr>
+//               <td><b>TRL Tool</b><br/>ESA TRL Calculator<br/>NASA TRL Calculator<br/>Horizon Europe Tool<br/><br/><i>Tech:</i> JS, Python, SQL</td>
+//               <td><b>TRL ERP</b><br/>Teamcenter<br/>Windchill<br/>SAP PLM<br/><br/><i>Tech:</i> Java, ABAP</td>
+//               <td><b>TRL AI/ML</b><br/>CARE AI<br/>ESA AI<br/><br/><i>Tech:</i> Python, MATLAB</td>
+//             </tr>
+//           </tbody>
+//         </table>
+
+//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
+//       </div>
+
+//       {/* ---------------- LEVEL 3 ---------------- */}
+//       <div className={`screen ${level === "level3" ? "active" : ""}`}>
+//         <h1 className="title">Software For TRL & Time Estimation</h1>
+//         <h2 className="subtitle">Level-3</h2>
+
+//         <table className="matrix levelTable">
+//           <tbody>
+//             <tr>
+//               <td><b>TRL Tool</b><br/><i>Hardware:</i><br/>Laptop<br/>Browser<br/>Cloud</td>
+//               <td><b>AI/ML</b><br/><i>Hardware:</i><br/>GPU Server<br/>HPC Cluster</td>
+//               <td><b>ERP</b><br/><i>Hardware:</i><br/>Enterprise Server</td>
+//             </tr>
+//           </tbody>
+//         </table>
+
+//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
+//       </div>
+
+//     </div>
+//   );
+// }
