@@ -39,7 +39,7 @@ export default function Modules() {
             style={{ cursor: "pointer" }}
           >
             <h3 className="text-lg font-semibold m-3">{m.title}</h3>
-            <p>{m.desc}</p>
+            <p className="about">{m.desc}</p>
             <span className="arrow">→</span>
           </div>
         ))}

@@ -63,9 +63,9 @@ body::after {
 
 /* HERO SECTION */
 .intro {
-  box-shadow: 7px 1px 42px 2px gray;
-  border: 1px solid;
-  padding: 64px 20px;
+  box-shadow: 1px 1px 17px 2px gray;
+  /* border: 1px solid; */
+  padding: 60px 20px;
   text-align: center;
   color: white;
   /* background:
@@ -134,9 +134,11 @@ body::after {
 
 /* WORKFLOW */
 .workflow {
-  padding: 60px 20px;    box-shadow: 2px 2px 25px 2px gray;
-    border: 1px solid;
-  text-align: center;
+    margin-top: 36px;
+    padding: 49px 20px;
+    box-shadow: 2px 2px 28px 2px gray;
+    /* border: 1px solid; */
+    text-align: center
 }
 
 .workflow h2 {
@@ -194,7 +196,7 @@ body::after {
   box-shadow: 2px 0px 15px -1px #b9aeae;
   border-radius: 11px;
   margin: 32px;
-  border: 1px solid #dedbdb;
+  /* border: 1px solid #dedbdb; */
   padding: 42px 20px 81px;
   text-align: center;
 }
@@ -232,7 +234,7 @@ body::after {
   gap: 40px;
 }
 
-.card {
+.moduleGrid .card {
   padding: 35px 25px;
   border-radius: 20px;
      background: linear-gradient(180deg, #bdb1b1, #f0f4ff);
@@ -242,22 +244,27 @@ body::after {
   position: relative;
 }
 
-.card:hover {
+ .moduleGrid .card:hover {
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
   border-color: #2a7fff;
 }
 
-.card h3 {
+.moduleGrid .card h3 {
   color: #1b3558;
   margin-bottom: 10px;
 }
 
-.card:hover h3 {
+.moduleGrid .card:hover h3 {
   color: #2a7fff;
 }
 
-.arrow {
+.moduleGrid .about{
+  color: #34495e;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.moduleGrid .arrow {
   position: absolute;
   right: 22px;
   bottom: 18px;
@@ -266,7 +273,7 @@ body::after {
 
 /* MATRIX TABLE */
 .matrixs {    box-shadow: 2px 2px 25px 2px gray;
-    border: 1px solid;
+    /* border: 1px solid; */
   padding: 72px 20px ;
   text-align: center;
 }
@@ -299,7 +306,8 @@ body::after {
 
 table {
   width: 90%;
-  margin: auto;
+  margin: auto;    font-weight: 500;
+    color: black;
   border-collapse: collapse;
   overflow: hidden;
   border-radius: 16px;
