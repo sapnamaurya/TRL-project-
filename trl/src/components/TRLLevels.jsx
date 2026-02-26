@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "../Styles/trl3d.css";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 export default function TRLLevels() {
   const [level, setLevel] = useState("ground");
 
   return (
     <div className="containers">
+      <Header />
       {/* ---------------- GROUND LEVEL ---------------- */}
       <div className={`screen ${level === "ground" ? "active" : ""}`}>
         <h1 className="title">Integrated Solution For TRL & Time Estimation</h1>

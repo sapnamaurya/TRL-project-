@@ -5,29 +5,29 @@
   padding: 0;
 }
 
-body {
+/* body {
   font-family: "Inter", sans-serif;
   position: relative;
   min-height: 100vh;
-}
+} */
 
 /* background image */
-body::before {
+/* body::before {
   content: "";
   position: fixed;
   inset: 0;
   background: url("../assets/bg.jpg") center/cover no-repeat;
   z-index: -2;
-}
+} */
 
 /* opacity controller layer */
-body::after {
+/* body::after {
   content: "";
   position: fixed;
   inset: 0;
   /* background: rgba(50, 57, 98, 0.6); 👈 opacity control here */
-  z-index: -1;
-}
+  /* z-index: -1; */
+/* }  */
 
 
 /* NAVBAR */
@@ -38,19 +38,36 @@ body::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 70px;
+  padding: 7px 70px;
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-.header .logo {
+.headerLogo {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
   font-weight: 600;
   color: #2a3f5f;
+  font-size: 16px;
+}
+
+.header nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
 }
 
 .header nav a {
-  margin-left: 28px;
   text-decoration: none;
   color: #34495e;
   font-weight: 500;
@@ -60,7 +77,52 @@ body::after {
 .header nav a:hover {
   color: #2a7fff;
 }
+.header .logo {
+  font-weight: 600;
+  color: #2a3f5f;
+}
 
+.topBar{
+  width:90%;
+  margin:0 auto 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.welcome{
+  font-weight:900;
+  font-size:16px;
+  color:#544221;    margin: 0 23px;
+}
+
+.logoutBtn{
+  padding:8px 18px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(135deg,#ff4e50,#f00000);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.logoutBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(255,0,0,.4);
+}
+.backBtns{
+      font-size: 14px;
+    margin-left: 20px;
+    border-radius: 8px;
+    width: 93px;
+    height: 39px;
+    background: #5a5aa5;
+    /* border: 1px solid; */
+    color: white;
+    font-weight: bold;
+    padding: 0px;
+}
 /* HERO SECTION */
 .intro {
   box-shadow: 1px 1px 17px 2px gray;
@@ -133,144 +195,184 @@ body::after {
 }
 
 /* WORKFLOW */
-.workflow {
-    margin-top: 36px;
-    padding: 49px 20px;
-    box-shadow: 2px 2px 28px 2px gray;
-    /* border: 1px solid; */
-    text-align: center
+/* WORKFLOW */
+
+.workflowPage {
+  padding: 80px 40px;
+  text-align: center;
+  color: white;
 }
 
-.workflow h2 {
-    margin-bottom: 35px;
-    font-size: 33px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+/* TITLE */
+.workflowTitle {
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 70px;
+  letter-spacing: 1px;
 
-  /* gradient text */
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    #8ecbff,
-    #ffffff,
-    #00e0ff,
-    #ffffff
-  );
-  background-size: 300% 100%;
-  
+  background: linear-gradient(90deg, #ffffff, #00e0ff, #ffffff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  /* smooth shine animation */
-  animation: shineText 6s linear infinite;
 }
 
-
-.flowContainer {
+/* WRAPPER */
+.workflowWrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 18px;
+  align-items: center;
+  gap: 50px;
 }
 
-.flowItem {
-  padding: 14px 26px;
-  border-radius: 12px;
-    background: linear-gradient(145deg, #c6bfbf, #e7edff);
-  border: 1px solid rgba(42, 127, 255, 0.2);
-  color: #2a3f5f;
-  font-weight: 500;
-  transition: 0.25s;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+/* CARD */
+.workflowCard {
+  position: relative;
+  width: 170px;
+  height: 170px;
+
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0,224,255,0.3);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: .3s ease;
+  box-shadow: 0 0 30px rgba(0,224,255,0.2);
 }
 
-.flowItem:hover {
-  background: #8c9497;
-  color: white;
-  box-shadow: 0 0 18px rgba(42, 127, 255, 0.7);
-  transform: translateY(-4px);
+.workflowCard:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 50px rgba(0,224,255,0.6);
+}
+
+/* ICON */
+.iconBox {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+/* TEXT */
+.workflowCard h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #8ecbff;
+}
+
+/* ARROW */
+.arrow {
+  position: absolute;
+  right: -35px;
+  font-size: 24px;
+  color: #00e0ff;
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px){
+  .workflowWrapper{
+    flex-direction: column;
+  }
+
+  .arrow{
+    display:none;
+  }
 }
 
 /* MODULE CARDS */
-.modules {
-  box-shadow: 2px 0px 15px -1px #b9aeae;
-  border-radius: 11px;
-  margin: 32px;
-  /* border: 1px solid #dedbdb; */
-  padding: 42px 20px 81px;
+.modulesPage {
+  padding: 90px 40px;
   text-align: center;
+  color: white;
 }
 
-.modules h2 {
-   margin-bottom: 35px;
-    font-size: 33px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+/* TITLE */
+.modulesTitle {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 70px;
+  letter-spacing: 1px;
 
-  /* gradient text */
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    #8ecbff,
-    #ffffff,
-    #00e0ff,
-    #ffffff
-  );
-  background-size: 300% 100%;
-  
+  background: linear-gradient(90deg, #ffffff, #00e0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  /* smooth shine animation */
-  animation: shineText 6s linear infinite;
 }
 
-
-.moduleGrid {
-  height: 20vh;
+/* GRID */
+.modulesGrid {
   display: grid;
-  margin: 0 40px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 40px;
+  gap: 45px;
+  width: 85%;
+  margin: auto;
 }
 
-.moduleGrid .card {
-  padding: 35px 25px;
-  border-radius: 20px;
-     background: linear-gradient(180deg, #bdb1b1, #f0f4ff);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: 0.35s;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+/* CARD */
+.moduleCard {
   position: relative;
+  padding: 40px 30px;
+  border-radius: 20px;
+
+  background: rgba(12, 20, 45, 0.75);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(0,224,255,0.15);
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
- .moduleGrid .card:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
-  border-color: #2a7fff;
+/* HOVER EFFECT */
+.moduleCard:hover {
+  transform: translateY(-12px) scale(1.04);
+  border-color: #00e0ff;
+  box-shadow: 0 25px 60px rgba(0,224,255,0.4);
 }
 
-.moduleGrid .card h3 {
-  color: #1b3558;
-  margin-bottom: 10px;
+/* ICON */
+.moduleIcon {
+  font-size: 45px;
+  margin-bottom: 20px;
 }
 
-.moduleGrid .card:hover h3 {
-  color: #2a7fff;
+/* TITLE */
+.moduleCard h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #8ecbff;
 }
 
-.moduleGrid .about{
-  color: #34495e;
-  font-weight: 500;
-  margin-bottom: 18px;
+/* DESC */
+.moduleCard p {
+  font-size: 14px;
+  color: #cfd8ff;
+  line-height: 1.6;
 }
-.moduleGrid .arrow {
+
+/* ARROW */
+.moduleArrow {
   position: absolute;
-  right: 22px;
-  bottom: 18px;
-  color: #2a7fff;
+  bottom: 20px;
+  right: 25px;
+  font-size: 20px;
+  color: #00e0ff;
+  transition: 0.3s;
 }
 
+.moduleCard:hover .moduleArrow {
+  transform: translateX(6px);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .modulesTitle{
+    font-size: 30px;
+  }
+}
 /* MATRIX TABLE */
 .matrixs {    box-shadow: 2px 2px 25px 2px gray;
     /* border: 1px solid; */

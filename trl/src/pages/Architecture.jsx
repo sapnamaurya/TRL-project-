@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/architecture.css";
+import Header from "../components/Header";
 
 // WORKFLOW */
 const workflow = [
@@ -57,7 +58,7 @@ export default function Architecture() {
 
   return (
     <div className="arch-container">
-
+<Header/>
       {/* HEADER */}
       <div className="arch-header glass">
         <h1>Advanced TRL–SRL Architecture</h1>
