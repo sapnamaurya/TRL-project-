@@ -2,12 +2,13 @@ import Header from "../components/Header";
 import "../Styles/home.css";
 
 const steps = [
-  { title: "Data Input", icon: "📂" },
+ 
   { title: "Questionnaire", icon: "📝" },
+   { title: "Data Input", icon: "📂" },
   { title: "Assessment", icon: "📊" },
   { title: "AI Prediction", icon: "🤖" },
   { title: "TRL Level", icon: "🚀" },
-  { title: "Time Estimation", icon: "⏳" },
+  { title: "Project duration Estimation", icon: "⏳" },
   { title: "Report", icon: "📄" }
 ];
 

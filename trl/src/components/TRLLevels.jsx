@@ -11,7 +11,7 @@ export default function TRLLevels() {
       <Header />
       {/* ---------------- GROUND LEVEL ---------------- */}
       <div className={`screen ${level === "ground" ? "active" : ""}`}>
-        <h1 className="title">Integrated Solution For TRL & Time Estimation</h1>
+        <h1 className="title">Integrated Solution For TRL & Project Duration Estimation</h1>
 
         <h2 className="subtitle">Ground Level</h2>
 
@@ -21,27 +21,27 @@ export default function TRLLevels() {
               <td>Technology Readiness Level Tool</td>
               <td>Technology Readiness Level Assessment</td>
               <td>Standalone Technology Readiness Level</td>
-              <td>Technology Readiness Level ERP</td>
-              <td>Technology Readiness Level AI/ML</td>
-              <td>Technology Readiness Level Social</td>
+              <td>Technology Readiness Level with ERP</td>
+              <td>Technology Readiness Level with AI/ML</td>
+              <td>Technology Readiness Level with AI?ML Social</td>
             </tr>
 
             <tr>
-              <td>Time Tool</td>
-              <td>Time Assessment</td>
-              <td>Standalone Time</td>
-              <td>Time ERP</td>
-              <td>Time AI/ML</td>
-              <td>Time Social</td>
+              <td>Project Duration Estimation Tool</td>
+              <td>Project Duration Estimation Assessment</td>
+              <td>Standalone Project Duration Estimation Implementation </td>
+              <td>Project Duration Estimation with ERP</td>
+              <td>Project Duration Estimation with AI/ML</td>
+              <td>Project Duration Estimation with AI/ML Social</td>
             </tr>
 
             <tr>
-              <td>TRL & Time Tool</td>
-              <td>TRL & Time Assessment</td>
-              <td>Standalone Combined</td>
-              <td>Combined ERP</td>
-              <td>Combined AI/ML</td>
-              <td>Combined Social</td>
+              <td>TRL & Project Duration Estimation Tool</td>
+              <td>TRL & Project Duration Estimation Assessment</td>
+              <td>Standalone TRL and Project Duration Estimation implementation</td>
+              <td>TRL and Project Duration Estimation Tool with ERP</td>
+              <td>TRL and Project Duration Estimation Tool with AI/ML</td>
+              <td>TRL and Project Duration Estimation Tool with AI/Ml Social</td>
             </tr>
           </tbody>
         </table>
@@ -67,12 +67,36 @@ export default function TRLLevels() {
           >
             LEVEL 3
           </div>
+          <div
+            className={`stackLayer l4 ${level === "level4" ? "active" : ""}`}
+            onClick={() => setLevel("level4")}
+          >
+            LEVEL 4
+          </div>
+          <div
+            className={`stackLayer l5 ${level === "level5" ? "active" : ""}`}
+            onClick={() => setLevel("level5")}
+          >
+            LEVEL 5
+          </div>
+          <div
+            className={`stackLayer l6 ${level === "level6" ? "active" : ""}`}
+            onClick={() => setLevel("level6")}
+          >
+            LEVEL 6
+          </div>
+          <div
+            className={`stackLayer l7 ${level === "level7" ? "active" : ""}`}
+            onClick={() => setLevel("level7")}
+          >
+            LEVEL 7
+          </div>
         </div>
       </div>
 
       {/* ---------------- LEVEL 1 ---------------- */}
       <div className={`screen level1 ${level === "level1" ? "active" : ""}`}>
-        <h1 className="title">Software For TRL & Time Estimation</h1>
+        <h1 className="title">Software For TRL & Project Duration Estimation</h1>
         <h2 className="subtitle">Level-1</h2>
 
         <table className="matrix levelTable">
@@ -97,7 +121,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone TRL</b>
+                <b>Standalone TRL implementation</b>
                 <br />
                 NASA DAU Tool
                 <br />
@@ -105,7 +129,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL ERP</b>
+                <b>TRL with ERP</b>
                 <br />
                 Siemens Teamcenter
                 <br />
@@ -113,7 +137,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL AI/ML</b>
+                <b>TRL with AI/ML</b>
                 <br />
                 CARE AI
                 <br />
@@ -121,7 +145,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL Social</b>
+                <b>TRL with Social media</b>
                 <br />
                 READINESSnavigator
                 <br />
@@ -131,7 +155,7 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>Time Tool</b>
+                <b>Project Duration Estimation Tool</b>
                 <br />
                 Jira
                 <br />
@@ -141,7 +165,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time Assessment</b>
+                <b>Project Duration Estimation Assessment</b>
                 <br />
                 SEER-SEM
                 <br />
@@ -149,7 +173,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone Time</b>
+                <b>Standalone Project Duration Estimation implementation</b>
                 <br />
                 COCOMO II
                 <br />
@@ -157,7 +181,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time ERP</b>
+                <b>Project Duration Estimation with ERP</b>
                 <br />
                 SAP S/4HANA
                 <br />
@@ -165,7 +189,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time AI/ML</b>
+                <b>Project Duration Estimation with AI/ML</b>
                 <br />
                 Forecast AI
                 <br />
@@ -173,7 +197,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time Social</b>
+                <b>Project Duration Estimation with Social Media</b>
                 <br />
                 ClickUp AI
                 <br />
@@ -183,7 +207,7 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>TRL & Time Estimation Tool</b>
+                <b>TRL & TProject Duration Estimation Tool</b>
                 <br />
                 NASA TAT-C + OpenMDAO
                 <br />
@@ -193,7 +217,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time Estimation Assessment</b>
+                <b>TRL & TProject Duration Estimation Assessment</b>
                 <br />
                 Siemens TeamCenter + Simcenter
                 <br />
@@ -203,13 +227,13 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone TRL & Time Estimation implementation</b>
+                <b>Standalone TRL & TProject Duration Estimation implementation</b>
                 <br />
                 ESA TRL Calculator + COCOMO based Estimation System
               </td>
 
               <td>
-                <b>TRL & Time Estimation with ERP</b>
+                <b>TRL & TProject Duration Estimation with ERP</b>
                 <br />
                 Siemens Teamcenter + SAP ERP
                 <br />
@@ -219,7 +243,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time Estimation with AI/ML</b>
+                <b>TRL & TProject Duration Estimation with AI/ML</b>
                 <br />
                 IBM Engineering Lifecycle Management
                 <br />
@@ -229,7 +253,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time Estimation with AI/ML social media</b>
+                <b>TRL & TProject Duration Estimation with AI/ML social media</b>
                 <br />
                 IBM Engineering Lifecycle Management
                 <br />
@@ -258,7 +282,7 @@ export default function TRLLevels() {
         </div>
       </div>
       <div className={`screen level1 ${level === "level2" ? "active" : ""}`}>
-        <h1 className="title">Language For TRL & Time Estimation</h1>
+        <h1 className="title">Language For TRL & Project Duration Estimation</h1>
         <h2 className="subtitle">Level-2</h2>
 
         <table className="matrix levelTable">
@@ -309,42 +333,42 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>Time Estimation Tool</b>
+                <b>Project Duration Estimation Tool</b>
                 <br />
                 <br />
                 <i>Tech:</i> JavaScript, C/Java/Python, MATLAB
               </td>
 
               <td>
-                <b>Time Estimation Assessment</b>
+                <b>Project Duration Estimation Assessment</b>
                 <br />
                 <br />
                 <i>Tech:</i> C++, C#, .NET
               </td>
 
               <td>
-                <b>Standalone Time implementation</b>
+                <b>Standalone Project Duration Estimation implementation</b>
                 <br />
                 <br />
                 <i>Tech:</i> C/C++, Python, MATLAB, JavaScript
               </td>
 
               <td>
-                <b>Time Estimation with ERP</b>
+                <b>Project Duration Estimation with ERP</b>
                 <br />
                 <br />
                 <i>Tech:</i> ABAP, SAP HANA DB, .NET, PostgreSQL
               </td>
 
               <td>
-                <b>Time Estimation with AI/ML</b>
+                <b>Project Duration Estimation with AI/ML</b>
                 <br />
                 <br />
                 <i>Tech:</i> Python, GraphQL, C++
               </td>
 
               <td>
-                <b>Time Estimation with AI/ML social media</b>
+                <b>Project Duration Estimation with AI/ML social media</b>
                 <br />
                 Jira + Estimate AI
                 <br />
@@ -356,14 +380,14 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>TRL & Time Estimation Tool</b>
+                <b>TRL & Project Duration Estimation Tool</b>
                 <br />
                 <br />
                 <i>Tech:</i> Python, C++, .NET, MATLAB
               </td>
 
               <td>
-                <b>TRL & Time Estimation Assessment</b>
+                <b>TRL & Project Duration Estimation Assessment</b>
                 <br />
                 <br />
                 <i>Tech:</i> C++, Python, Java, Eclipse RCP
@@ -377,21 +401,21 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time with ERP</b>
+                <b>TRL & Project Duration Estimation with ERP</b>
                 <br />
                 <br />
                 <i>Tech:</i> Java, C++, .NET, Oracle DB, ABAP
               </td>
 
               <td>
-                <b>TRL & Time with AI/ML</b>
+                <b>TRL & Project Duration Estimation with AI/ML</b>
                 <br />
                 <br />
                 <i>Tech:</i> Java, C++, JavaScript, Python
               </td>
 
               <td>
-                <b>TRL & Time with AI/ML social media</b>
+                <b>TRL & Project Duration Estimation with AI/ML social media</b>
                 <br />
                 <br />
                 <i>Tech:</i> Python, C++, Java, PL/SQL
@@ -410,7 +434,7 @@ export default function TRLLevels() {
         </div>
       </div>
       <div className={`screen level1 ${level === "level3" ? "active" : ""}`}>
-        <h1 className="title">Hardware For TRL & Time Estimation</h1>
+        <h1 className="title">Hardware For TRL & Project Duration Estimation</h1>
         <h2 className="subtitle">Level-3</h2>
 
         <table className="matrix levelTable">
@@ -441,7 +465,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone TRL</b>
+                <b>Standalone TRL implementation</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -449,7 +473,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL ERP</b>
+                <b>TRL with ERP</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -461,7 +485,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL AI/ML</b>
+                <b>TRL with AI/ML</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -473,7 +497,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL Social</b>
+                <b>TRL with Social Media</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -487,7 +511,7 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>Time Tool</b>
+                <b>Project Duration Estimation Tool</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -497,7 +521,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time Assessment</b>
+                <b>Project Duration Estimation Assessment</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -507,7 +531,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone Time</b>
+                <b>Standalone Project Duration Estimation </b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -517,7 +541,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time ERP</b>
+                <b>Project Duration Estimation with ERP</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -529,7 +553,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time AI/ML</b>
+                <b>Project Duration Estimation with AI/ML</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -539,7 +563,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Time Social</b>
+                <b>Project Duration Estimation with Social Media</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -551,7 +575,7 @@ export default function TRLLevels() {
 
             <tr>
               <td>
-                <b>TRL & Time Tool</b>
+                <b>TRL & Project Duration Estimation Tool</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -563,7 +587,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time Assessment</b>
+                <b>TRL & Project Duration Estimation Assessment</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -573,7 +597,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>Standalone TRL & Time</b>
+                <b>Standalone TRL & Project Duration Estimation implementation</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -581,7 +605,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time ERP</b>
+                <b>TRL & Project Duration Estimation with ERP</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -593,7 +617,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time AI/ML</b>
+                <b>TRL & Project Duration Estimation with AI/ML</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -605,7 +629,7 @@ export default function TRLLevels() {
               </td>
 
               <td>
-                <b>TRL & Time Social</b>
+                <b>TRL & Project Duration Estimation with Social Media</b>
                 <br />
                 <i>Hardware:</i>
                 <br />
@@ -627,127 +651,23 @@ export default function TRLLevels() {
           </div>
         </div>
       </div>
+      <div className={`screen ${level === "level4" ? "active" : ""}`}>
+  <h1 className="title">Protocols For TRL & Time Estimation</h1>
+  <h2 className="subtitle">Level-4</h2>
+
+  <table className="matrix levelTable">
+    <tbody>
+      <tr>
+        <td><b>TRL Tool</b><br/>REST API<br/>File-based<br/>RPC</td>
+        <td><b>TRL Assessment</b><br/>Client-Server<br/>gRPC<br/>DB API</td>
+        <td><b>Standalone TRL</b><br/>Local Pipeline<br/>CLI Tools</td>
+        <td><b>TRL ERP</b><br/>REST + SQL<br/>SOAP<br/>Event Driven</td>
+        <td><b>TRL AI/ML</b><br/>FastAPI<br/>gRPC<br/>Airflow</td>
+        <td><b>TRL Social</b><br/>Kafka<br/>REST APIs<br/>Event Driven</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     </div>
   );
 }
-// import React, { useState } from "react";
-// import "../Styles/trl3d.css";
-
-// export default function TRLLevels() {
-//   const [level, setLevel] = useState("ground");
-
-//   return (
-//     <div className="containers">
-
-//       {/* ---------------- GROUND LEVEL ---------------- */}
-//       <div className={`screen ${level === "ground" ? "active" : ""}`}>
-//         <h1 className="title">Integrated Solution For TRL & Time Estimation</h1>
-//         <h2 className="subtitle">Ground Level</h2>
-
-//         <table className="matrix">
-//           <tbody>
-//             <tr>
-//               <td>Technology Readiness Level Tool</td>
-//               <td>Technology Readiness Level Assessment</td>
-//               <td>Standalone Technology Readiness Level</td>
-//               <td>Technology Readiness Level ERP</td>
-//               <td>Technology Readiness Level AI/ML</td>
-//               <td>Technology Readiness Level Social</td>
-//             </tr>
-
-//             <tr>
-//               <td>Time Tool</td>
-//               <td>Time Assessment</td>
-//               <td>Standalone Time</td>
-//               <td>Time ERP</td>
-//               <td>Time AI/ML</td>
-//               <td>Time Social</td>
-//             </tr>
-
-//             <tr>
-//               <td>TRL & Time Tool</td>
-//               <td>TRL & Time Assessment</td>
-//               <td>Standalone Combined</td>
-//               <td>Combined ERP</td>
-//               <td>Combined AI/ML</td>
-//               <td>Combined Social</td>
-//             </tr>
-//           </tbody>
-//         </table>
-
-//         {/* 🔥 STACK SELECTOR */}
-//         <div className="stackWrapper">
-//           <div className="stackCard level3" onClick={() => setLevel("level3")}>
-//             <span>Level 3</span>
-//           </div>
-
-//           <div className="stackCard level2" onClick={() => setLevel("level2")}>
-//             <span>Level 2</span>
-//           </div>
-
-//           <div className="stackCard level1" onClick={() => setLevel("level1")}>
-//             <span>Level 1</span>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* ---------------- LEVEL 1 ---------------- */}
-//       <div className={`screen ${level === "level1" ? "active" : ""}`}>
-//         <h1 className="title">Software For TRL & Time Estimation</h1>
-//         <h2 className="subtitle">Level-1</h2>
-
-//         <table className="matrix levelTable">
-//           <tbody>
-//             <tr>
-//               <td><b>TRL Tool</b><br/>ESA TRL Calculator<br/>NASA TRL Worksheet<br/>Horizon Europe Tool</td>
-//               <td><b>TRL Assessment</b><br/>Clean-Growth Tool<br/>eG Technology Assessment</td>
-//               <td><b>Standalone TRL</b><br/>NASA DAU Tool<br/>Innovation Assessment</td>
-//               <td><b>TRL ERP</b><br/>Siemens Teamcenter<br/>SAP PLM</td>
-//               <td><b>TRL AI/ML</b><br/>CARE AI<br/>ESA AI Evaluator</td>
-//               <td><b>TRL Social</b><br/>READINESSnavigator<br/>Kooplex Platform</td>
-//             </tr>
-//           </tbody>
-//         </table>
-
-//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
-//       </div>
-
-//       {/* ---------------- LEVEL 2 ---------------- */}
-//       <div className={`screen ${level === "level2" ? "active" : ""}`}>
-//         <h1 className="title">Software For TRL & Time Estimation</h1>
-//         <h2 className="subtitle">Level-2</h2>
-
-//         <table className="matrix levelTable">
-//           <tbody>
-//             <tr>
-//               <td><b>TRL Tool</b><br/>ESA TRL Calculator<br/>NASA TRL Calculator<br/>Horizon Europe Tool<br/><br/><i>Tech:</i> JS, Python, SQL</td>
-//               <td><b>TRL ERP</b><br/>Teamcenter<br/>Windchill<br/>SAP PLM<br/><br/><i>Tech:</i> Java, ABAP</td>
-//               <td><b>TRL AI/ML</b><br/>CARE AI<br/>ESA AI<br/><br/><i>Tech:</i> Python, MATLAB</td>
-//             </tr>
-//           </tbody>
-//         </table>
-
-//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
-//       </div>
-
-//       {/* ---------------- LEVEL 3 ---------------- */}
-//       <div className={`screen ${level === "level3" ? "active" : ""}`}>
-//         <h1 className="title">Software For TRL & Time Estimation</h1>
-//         <h2 className="subtitle">Level-3</h2>
-
-//         <table className="matrix levelTable">
-//           <tbody>
-//             <tr>
-//               <td><b>TRL Tool</b><br/><i>Hardware:</i><br/>Laptop<br/>Browser<br/>Cloud</td>
-//               <td><b>AI/ML</b><br/><i>Hardware:</i><br/>GPU Server<br/>HPC Cluster</td>
-//               <td><b>ERP</b><br/><i>Hardware:</i><br/>Enterprise Server</td>
-//             </tr>
-//           </tbody>
-//         </table>
-
-//         <div className="backBtn" onClick={() => setLevel("ground")}>Back</div>
-//       </div>
-
-//     </div>
-//   );
-// }

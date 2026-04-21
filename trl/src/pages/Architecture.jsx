@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../Styles/architecture.css";
 import Header from "../components/Header";
 
-// WORKFLOW */
+/* WORKFLOW */
 const workflow = [
   "User Input",
   "Questionnaire",
@@ -14,29 +14,49 @@ const workflow = [
   "Report Generation",
 ];
 
-/* MODES */
+/* MODES (WITH ICONS) */
 const modes = [
-  { title: "Basic Questionnaire", desc: "Initial TRL assigned using structured technical inputs." },
-  { title: "Validation", desc: "Lab verification improves accuracy and reduces subjectivity." },
-  { title: "Mathematical Models", desc: "Fuzzy logic, AHP and Bayesian analysis." },
-  { title: "Simulation", desc: "Monte Carlo prediction of duration and risk." },
-  { title: "ERP Integration", desc: "Deployment readiness evaluation." },
-  { title: "AI Prediction", desc: "ML predicts maturity and timelines." },
+  { icon: "📋", title: "Basic Questionnaire", desc: "Initial TRL assigned using structured technical inputs." },
+  { icon: "🛡️", title: "Validation", desc: "Lab verification improves accuracy and reduces subjectivity." },
+  { icon: "∑", title: "Mathematical Models", desc: "Fuzzy logic, AHP and Bayesian analysis." },
+  { icon: "📈", title: "Simulation", desc: "Monte Carlo prediction of duration and risk." },
+  { icon: "🔗", title: "ERP Integration", desc: "Deployment readiness evaluation." },
+  { icon: "🧠", title: "AI Prediction", desc: "ML predicts maturity and timelines." },
+];
+
+/* OUTPUTS (WITH ICONS) */
+const outputs = [
+  { icon: "🎯", title: "TRL Score", desc: "Readiness level 1–9" },
+  { icon: "📊", title: "SRL Matrix", desc: "Schedule readiness map" },
+  { icon: "📉", title: "Completion Probability", desc: "Probability distribution" },
+  { icon: "⚠️", title: "Risk Metrics", desc: "Weighted risk analysis" },
 ];
 
 /* TRL LEVELS */
 const trlLevels = [
   "Basic principles observed and reported",
-  "Technology concept and/ or application formulated",
-  "Analytical and experimental critical function and/ or characteristic proof of concept",
-  "Component and /or breadboard validation in laboratory environment",
-  "Component and/ or breadboard validation in relevent environment",
-  "System / sunsystem model or prototype demonstration in space environment",
-  "System prototype demonstration in space environment ",
-  "Actual system completed and'fligth Qualified' successful mission operations",
-  "Actual system 'fligth proven' successful mission operations",
+  "Technology concept and/or application formulated",
+  "Analytical and experimental proof of concept",
+  "Component validation in laboratory environment",
+  "Component validation in relevant environment",
+  "System prototype demonstration",
+  "System demonstration in operational environment",
+  "System complete and qualified",
+  "Actual system proven in mission operations",
 ];
 
+/* COLORS */
+const trlColors = [
+  "#38bdf8",
+  "#60a5fa",
+  "#818cf8",
+  "#a78bfa",
+  "#c084fc",
+  "#f472b6",
+  "#fb7185",
+  "#facc15",
+  "#4ade80"
+];
 
 export default function Architecture() {
   const [active, setActive] = useState(modes[0]);
@@ -58,7 +78,9 @@ export default function Architecture() {
 
   return (
     <div className="arch-container">
-<Header/>
+
+      <Header />
+
       {/* HEADER */}
       <div className="arch-header glass">
         <h1>Advanced TRL–SRL Architecture</h1>
@@ -68,19 +90,15 @@ export default function Architecture() {
           <div className="progressFill" style={{ width: progress + "%" }} />
         </div>
       </div>
-      
-       {/* TRL INTRO */}
+
+      {/* TRL INTRO */}
       <section className="section white">
         <h2>Technology Readiness Levels</h2>
 
         <div className="mode-desc glass">
-          <p>
-            Technology Readiness Levels (TRL) are a standardized measurement
-            system used to evaluate the maturity level of a technology.
-          </p>
-
-          <p style={{marginTop:"10px"}}>
-            TRL ranges from 1 (basic principles) to 9 (flight proven system).
+          <p>Technology Readiness Levels (TRL) evaluate technology maturity.</p>
+          <p style={{ marginTop: "10px" }}>
+            TRL ranges from 1 (basic principles) to 9 (fully operational system).
           </p>
         </div>
       </section>
@@ -96,7 +114,8 @@ export default function Architecture() {
               className="trl-row"
               style={{
                 width: animate ? `${55 + i * 5}%` : "0%",
-                background: `hsl(${i * 32},80%,50%)`,
+                background: trlColors[i],
+                color: i === 7 ? "#000" : "#020617",
                 transitionDelay: `${i * 0.08}s`,
               }}
             >
@@ -107,16 +126,7 @@ export default function Architecture() {
         </div>
       </section>
 
-      {/*TRL DESCRIPTION*/} 
-      <section className="section">
-        <h2>TRL Description</h2>
-
-        <div className="info-box large">
-          Technology Readiness Levels (TRL) are a type of measurement system used to assess the maturity level of a particular technology. Each technology project is evaluated against the parameters for each technology level and is then assigned a TRL rating based on the projects progress. There are nine technology readiness levels. TRL 1 is the lowest and TRL 9 is the highest.
-        </div>
-      </section>
-
-        {/* WORKFLOW */}
+      {/* WORKFLOW */}
       <section className="section white">
         <h2>System Flow Diagram</h2>
 
@@ -127,184 +137,6 @@ export default function Architecture() {
               {i !== workflow.length - 1 && <div className="line" />}
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* STEP 1 */}
-      <section className="section white">
-        <h2>Step 1 — Mathematical Technique for TRL Assessment</h2>
-
-        <div className="cards">
-
-          <div className="card glass">
-            <h3>Objective</h3>
-            <p>
-              Develop a mathematical technique to estimate TRL values with
-              high validity, reduced subjectivity and system-level applicability.
-            </p>
-          </div>
-
-          <div className="card glass">
-            <h3>Granular Assessment</h3>
-            <ul>
-              <li>TRL computed using multiple factors</li>
-              <li>Not based on single judgement</li>
-              <li>Captures subsystem maturity</li>
-              <li>Improves accuracy</li>
-            </ul>
-          </div>
-
-          <div className="card glass">
-            <h3>Posterior Model</h3>
-            <p>
-              TRL is computed using posterior model-based calculations instead
-              of subjective prior estimation.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* FUZZY */}
-      <section className="section">
-        <h2>Fuzzy Set Based TRL Modeling</h2>
-
-        <div className="cards">
-
-          <div className="card glass">
-            <h3>Normalization</h3>
-            <p>Aggregated scores normalized for comparability across TRL levels.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Membership Functions</h3>
-            <p>Triangular functions centered at TRLn overlapping adjacent levels.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Multiple Membership</h3>
-            <p>A project may belong to multiple TRLs simultaneously.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Boundary Behavior</h3>
-            <p>Membership highest at center and decreases linearly to neighbors.</p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* STEP 2 */}
-      <section className="section white">
-        <h2>Step 2 — Monte Carlo Simulation Model</h2>
-
-        <div className="cards">
-
-          <div className="card glass">
-            <h3>Purpose</h3>
-            <p>Used to estimate schedule time and project uncertainty.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Metrics Generated</h3>
-            <ul>
-              <li>Mean duration</li>
-              <li>Standard deviation</li>
-              <li>P95 completion time</li>
-              <li>Completion probability</li>
-            </ul>
-          </div>
-
-          <div className="card glass">
-            <h3>Schedule Buffer</h3>
-            <p>
-              PB = Expected Duration − Percentile₉₅(Duration)
-            </p>
-          </div>
-
-          <div className="card glass">
-            <h3>Why Simulation?</h3>
-            <p>Captures uncertainty and improves planning reliability.</p>
-          </div>
-
-        </div>
-      </section>
-
-{/* EXECUTION */}
-<section className="section">
-  <h2>Project Execution Plan</h2>
-
-  <div className="cards">
-
-    {/* Pilot Study */}
-    <div className="card glass">
-      <h3>Pilot Study</h3>
-      <p>
-        Phased validation conducted on DRDO projects to verify TRL computation
-        accuracy, reliability, and real-world applicability before full-scale deployment.
-      </p>
-    </div>
-
-    {/* Activities */}
-    <div className="card glass">
-      <h3>Execution Workflow</h3>
-
-      <div className="flow-steps">
-        <span>Literature</span>
-        <span>Proposal</span>
-        <span>Methodology</span>
-        <span>Survey</span>
-        <span>Analysis</span>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-      {/* TIMELINE */}
-      <section className="section white">
-        <h2>Project Timeline</h2>
-
-        <div className="cards">
-          {[
-            "Literature review",
-            "Factors identified",
-            "Factors finalized",
-            "Survey conducted",
-            "Analysis report",
-            "Risk assessment",
-            "Simulation output",
-            "CCPM implemented",
-            "Objectives achieved"
-          ].map((item, i) => (
-            <div key={i} className="card glass">{item}</div>
-          ))}
-        </div>
-      </section>
-
-      {/* LITERATURE */}
-      <section className="section">
-        <h2>Findings from Literature Review</h2>
-
-        <div className="cards">
-
-          <div className="card glass">
-            <h3>Group 1</h3>
-            <p>Studies focused on TRL factors and limitations.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Group 2</h3>
-            <p>Linear models cannot capture complex technology behavior.</p>
-          </div>
-
-          <div className="card glass">
-            <h3>Group 3</h3>
-            <p>SRL calculated using IRL × TRL matrices.</p>
-          </div>
-
         </div>
       </section>
 
@@ -319,28 +151,31 @@ export default function Architecture() {
               className={`mode-card glass ${active.title === m.title ? "active" : ""}`}
               onClick={() => setActive(m)}
             >
-              {m.title}
+              <div className="mode-icon">{m.icon}</div>
+              <div>{m.title}</div>
             </div>
           ))}
         </div>
 
         <div className="mode-desc glass">
-          <h3>{active.title}</h3>
+          <h3>{active.icon} {active.title}</h3>
           <p>{active.desc}</p>
         </div>
       </section>
 
-       {/* OUTPUT */}
+      {/* OUTPUT */}
       <section className="section white">
         <h2>Software Outputs</h2>
+
         <div className="cards">
-          <div className="card glass">TRL Score</div>
-          <div className="card glass">SRL Matrix</div>
-          <div className="card glass">Completion Probability</div>
-          <div className="card glass">Risk Metrics</div>
+          {outputs.map((item, i) => (
+            <div key={i} className="card glass">
+              <h3>{item.icon} {item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
-     
 
     </div>
   );

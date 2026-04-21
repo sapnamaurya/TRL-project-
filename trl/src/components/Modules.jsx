@@ -12,7 +12,7 @@ const modules = [
   {
     title: "TRL Levels",
     desc: "Standardized maturity level evaluation",
-    path: "/trl",
+    path: "/path",
     icon: "📊"
   },
   {

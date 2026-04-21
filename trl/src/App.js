@@ -8,7 +8,7 @@ import TRLLevels from "./components/TRLLevels";
 import ProjectSetup from "./pages/ProjectSetup";
 import WorkflowPage from "./components/Workflow";
 import ModulesPage from "./components/Modules";
-
+import Sample from "./components/Sample"
 function App() {
   return (
     <Router>
@@ -20,6 +20,7 @@ function App() {
         <Route path="/architecture" element={<Architecture />} />
         <Route path="/trl" element={<TRLLevels />} />
         <Route path="/module" element={<ModulesPage />} />
+        <Route path="/path" element={<Sample/>} />
         
         <Route path="/workflow" element={<WorkflowPage />} />
         <Route path="/project-setup" element={<ProjectSetup />} />
