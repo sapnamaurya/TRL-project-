@@ -37,11 +37,11 @@ export default function Register() {
       <div className="authLeft">
         <div className="authLeftContent">
           <h1 style={{color:"beige", fontSize:"55px"}}>
-            TRL & Time Estimation
+            TRL & Project Duration Estimation
           </h1>
           <p>
             Integrated solution platform for Technology Readiness Level 
-            and Time Estimation systems.
+            and  Project Duration Estimation systems.
           </p>
         </div>
       </div>
