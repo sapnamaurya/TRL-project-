@@ -12,7 +12,7 @@
 .authLeft{    margin-right: 61px;
     font-weight: bold;}
 /* animated glow */
-.authContainer::before {
+.authContainer::before { pointer-events: none;
   content: "";
   position: absolute;
   width: 600px;
@@ -25,7 +25,7 @@
 }
 
 .authContainer::after {
-  content: "";
+  content: ""; pointer-events: none;
   position: absolute;
   width: 500px;
   height: 500px;
@@ -40,7 +40,7 @@
 .authBox {
   width: 420px;
   padding: 50px;
-  border-radius: 24px;
+  border-radius: 24px;position: relative;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
