@@ -1,335 +1,450 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Header from "./Header";
 
+// ─── Glossary Lookup Data (from PDFs) ────────────────────────────────────────
+const GLOSSARY = {
+  "javascript": {
+    label: "JavaScript", role: "Frontend Engine",
+    description: "Functions as the Frontend engine. Used to create buttons, sliders, and interactive forms where a user enters TRL data in a web browser. Also integrates AI/ML outputs into web-based applications, displaying predictions, dashboards, and visualizations in real time.",
+    tags: ["Frontend", "Web", "UI"], color: "amber",
+  },
+  "python": {
+    label: "Python", role: "Backend / AI-ML Core",
+    description: "Used for core maturity calculations and numerical modeling. Acts as the primary AI/ML language — processes TRL data, performs predictions, and enables intelligent decision-making. Supports data processing, evaluation logic, and future AI integration.",
+    libraries: ["Pandas", "NumPy", "Scikit-learn", "TensorFlow / Keras", "XGBoost / LightGBM", "Statsmodels", "NLTK / SpaCy"],
+    tags: ["Backend", "AI/ML", "Data Science"], color: "blue",
+  },
+  "matlab": {
+    label: "MATLAB", role: "Computational & Modeling Layer",
+    description: "A high-level language and environment for numerical computation and visualization. Used for complex mathematical modeling of how a technology matures over time, simulations, and algorithm development especially in research-oriented TRL systems.",
+    tags: ["Computation", "Simulation", "Modeling"], color: "purple",
+  },
+  "excel vba": {
+    label: "Excel VBA", role: "Local Automation Tool",
+    description: "VBA (Visual Basic for Applications) is used to write Macros — sequences of instructions that automate repetitive tasks. In the TRL tool, it automatically calculates scores and generates reports directly inside Excel without requiring external systems.",
+    tags: ["Automation", "Spreadsheet", "Local"], color: "green",
+  },
+  "postgresql": {
+    label: "PostgreSQL", role: "Relational Database",
+    description: "Manages and stores historical TRL data with high data integrity and consistency. Stores structured data (TRL scores, project history, evaluation records) efficiently using tables and relationships.",
+    tags: ["Database", "SQL", "Structured Data"], color: "blue",
+  },
+  "sql": {
+    label: "SQL", role: "Structured Data Management",
+    description: "Stores structured TRL data such as scores, history, and project details. Manages project timelines, task dependencies, and historical records with high accuracy.",
+    note: { title: "SQL vs NoSQL", body: "SQL is preferred for TRL tools because the data is structured and requires high accuracy and consistency. NoSQL can be used only for unstructured data such as logs, chat data, or AI-generated inputs. Therefore, SQL is the main database, while NoSQL is only a supporting system." },
+    tags: ["Database", "Structured", "Enterprise"], color: "teal",
+  },
+  "nosql": {
+    label: "NoSQL", role: "Unstructured Data Storage",
+    description: "Used for storing unstructured data such as chat logs, social media inputs, collaboration data, and AI-generated inputs. Social media data is not structured, so NoSQL is more suitable for these contexts.",
+    note: { title: "SQL vs NoSQL", body: "SQL is preferred for TRL tools because the data is structured and requires high accuracy and consistency. NoSQL is used only for unstructured data such as logs, chat data, or AI-generated inputs." },
+    tags: ["Database", "Unstructured", "Logs"], color: "gray",
+  },
+  "java": {
+    label: "Java", role: "Enterprise Backend",
+    description: "Used in large-scale and mission-critical systems (such as space agencies). Supports secure, multi-user, and high-performance TRL assessment systems. Also handles large-scale, enterprise-level data processing and system integration.",
+    tags: ["Backend", "Enterprise", "Scalable"], color: "coral",
+  },
+  ".net": {
+    label: ".NET (C#)", role: "Enterprise Application Layer",
+    description: "Supports scalable enterprise applications. Used to develop secure, enterprise-level applications when the tool is deployed in larger systems. C# is used in .NET framework for enterprise-level estimation and building scalable applications that assess estimation accuracy.",
+    tags: ["Backend", "Enterprise", "Microsoft"], color: "blue",
+  },
+  "html": {
+    label: "HTML / CSS", role: "Frontend Structure & Style",
+    description: "Used to design and structure the interface of standalone TRL tools. HTML provides the layout, while CSS enhances the visual appearance and user experience. Used for independent tool development without requiring an enterprise server.",
+    tags: ["Frontend", "Web", "UI"], color: "amber",
+  },
+  "css": {
+    label: "HTML / CSS", role: "Frontend Structure & Style",
+    description: "Used to design and structure the interface of standalone TRL tools. HTML provides the layout, while CSS enhances the visual appearance and user experience.",
+    tags: ["Frontend", "Web", "UI"], color: "amber",
+  },
+  "c++": {
+    label: "C++", role: "High-Performance Computing Layer",
+    description: "Provides fast computation for complex estimation algorithms and simulations. Used for high-speed execution of complex algorithms and handling large-scale data efficiently in both TRL and time estimation systems.",
+    tags: ["Backend", "Performance", "System"], color: "gray",
+  },
+  "angular": {
+    label: "Angular", role: "Frontend Framework (ERP Layer)",
+    description: "Helps in developing large-scale, modular applications within ERP platforms. Works alongside JavaScript to manage user interaction and real-time updates in enterprise-scale TRL systems.",
+    tags: ["Frontend", "Framework", "Enterprise"], color: "coral",
+  },
+  "abap": {
+    label: "ABAP", role: "SAP ERP Backend",
+    description: "SAP's proprietary programming language used to integrate TRL logic directly into SAP ERP systems and handle business processes. Implements time estimation logic within SAP ERP systems and connects with business modules such as project planning and resource management.",
+    tags: ["ERP", "SAP", "Enterprise"], color: "purple",
+  },
+  "sap hana sql": {
+    label: "SAP HANA SQL", role: "In-Memory Enterprise Database",
+    description: "An in-memory database that stores data in RAM, enabling real-time analytics and fast processing of large-scale enterprise TRL data. Enables instant decision-making in enterprise environments.",
+    tags: ["Database", "SAP", "Real-time"], color: "teal",
+  },
+  "sap hana": {
+    label: "SAP HANA", role: "In-Memory Enterprise Database",
+    description: "An in-memory database that stores data in RAM, enabling real-time analytics and fast processing of large-scale enterprise TRL data.",
+    tags: ["Database", "SAP", "Real-time"], color: "teal",
+  },
+  "pandas": {
+    label: "Pandas", role: "Data Cleaning & Structuring",
+    description: "Used for cleaning and organizing TRL datasets (project data, scores, history) into a structured format (DataFrames). Organizes and cleans collaborative data including logs, chats, and inputs.",
+    tags: ["Python Library", "Data Science", "AI/ML"], color: "green",
+  },
+  "numpy": {
+    label: "NumPy", role: "Numerical Computation",
+    description: "Handles numerical and matrix operations required for TRL calculations and model computations. Performs numerical computations essential for AI/ML model training and inference.",
+    tags: ["Python Library", "Mathematics", "AI/ML"], color: "blue",
+  },
+  "scikit-learn": {
+    label: "Scikit-learn", role: "Machine Learning Framework",
+    description: "Provides machine learning algorithms: Regression to predict TRL level, Classification to categorize technology maturity, and Clustering to group similar technologies. Also used for ML models such as regression for time prediction.",
+    tags: ["Python Library", "AI/ML", "Classification"], color: "purple",
+  },
+  "tensorflow": {
+    label: "TensorFlow / Keras", role: "Deep Learning Framework",
+    description: "Used for deep learning and complex prediction models. Handles advanced neural network training for TRL and time estimation predictions where classical ML models are insufficient.",
+    tags: ["Python Library", "Deep Learning", "AI/ML"], color: "coral",
+  },
+  "xgboost": {
+    label: "XGBoost / LightGBM", role: "High-Accuracy Forecasting",
+    description: "High-accuracy forecasting models used for predicting TRL levels and project completion times with superior performance compared to standard ML methods.",
+    tags: ["Python Library", "Forecasting", "AI/ML"], color: "amber",
+  },
+  "nltk": {
+    label: "NLP Libraries (NLTK / SpaCy)", role: "Text & Social Data Analysis",
+    description: "Analyze text data from discussions and social inputs. Used to process unstructured natural language inputs — chat logs, collaboration data, and social media content — for TRL evaluation.",
+    tags: ["Python Library", "NLP", "Social Data"], color: "teal",
+  },
+  "jupyter": {
+    label: "Jupyter Notebook", role: "Experimentation & Development",
+    description: "Used for experimenting with datasets, testing ML models, and analyzing TRL-related data step-by-step. Enables interactive development and prototyping of AI models before deployment.",
+    tags: ["Development", "Data Science", "Prototyping"], color: "amber",
+  },
+  "docker": {
+    label: "Docker", role: "Deployment & Containerization",
+    description: "Packages the application and AI models into containers so they can run consistently across different systems and environments. Ensures scalable deployment and consistent execution across systems.",
+    tags: ["DevOps", "Deployment", "Containers"], color: "blue",
+  },
+  "eclipse rcp": {
+    label: "Eclipse RCP", role: "Desktop Application Platform",
+    description: "Rich Client Platform used to build modular and scalable desktop applications for engineers and researchers. Provides an interface for interacting with TRL systems and collaborative tools.",
+    tags: ["Desktop", "Enterprise", "UI Framework"], color: "gray",
+  },
+  "react": {
+    label: "React", role: "Modern Frontend Framework",
+    description: "Builds dynamic and interactive user interfaces for displaying time predictions, dashboards, and alerts. Used in Social-layer systems for real-time AI/ML output visualization.",
+    tags: ["Frontend", "Framework", "Real-time"], color: "blue",
+  },
+  "node.js": {
+    label: "Node.js", role: "Backend Runtime",
+    description: "Enables real-time data processing, API handling, and communication between frontend and AI/ML models. Used in social/collaborative systems requiring real-time data flow.",
+    tags: ["Backend", "Runtime", "Real-time"], color: "green",
+  },
+  "oracle": {
+    label: "Oracle DB", role: "Enterprise Database System",
+    description: "Provides reliable, scalable, and secure database management for large organizations. Manages structured data such as TRL scores, project timelines, resource allocation, and historical records.",
+    tags: ["Database", "Enterprise", "Oracle"], color: "coral",
+  },
+  "pl/sql": {
+    label: "PL/SQL", role: "Advanced SQL Procedures",
+    description: "Executes complex queries, stored procedures, and manages structured enterprise data efficiently. Used in combined social systems where complex data relationships must be maintained alongside unstructured data.",
+    tags: ["Database", "Oracle", "Procedures"], color: "teal",
+  },
+  "c": {
+    label: "C", role: "Low-Level Computation",
+    description: "Provides efficient low-level computation for implementing core logic, algorithms, and performance-critical operations in estimation and assessment systems.",
+    tags: ["System", "Low-level", "Performance"], color: "gray",
+  },
+  "statsmodels": {
+    label: "Statsmodels", role: "Statistical Analysis",
+    description: "Used for statistical analysis and validation of time estimation models. Provides rigorous statistical methods to validate the accuracy of project duration predictions.",
+    tags: ["Python Library", "Statistics", "Validation"], color: "purple",
+  },
+  "kotlin": {
+    label: "Kotlin", role: "Modern Scalable Backend",
+    description: "Modern alternative to Java, used for efficient and concise backend development in enterprise-level scalable backend systems.",
+    tags: ["Backend", "Enterprise", "Modern"], color: "purple",
+  },
+  "typescript": {
+    label: "TypeScript", role: "Type-Safe Frontend",
+    description: "Enhances JavaScript with type safety, making large-scale applications more reliable. Used in social-layer frontends where reliability of AI/ML data display is critical.",
+    tags: ["Frontend", "Type Safety", "Enterprise"], color: "blue",
+  },
+  "graphql": {
+    label: "GraphQL", role: "API Query Layer",
+    description: "Used as a flexible API query language in AI/ML backend systems. Enables efficient data fetching between AI model outputs and frontend dashboards.",
+    tags: ["API", "Backend", "Data Fetching"], color: "coral",
+  },
+  "fastapi": {
+    label: "FastAPI", role: "Python API Framework",
+    description: "High-performance Python web framework for building APIs that serve AI/ML model outputs to frontend dashboards. Used in TRL + AI/ML integration layers.",
+    tags: ["Backend", "API", "Python"], color: "green",
+  },
+  "kafka": {
+    label: "Kafka", role: "Event-Driven Messaging",
+    description: "Distributed event streaming platform used in social-layer TRL systems for handling real-time data feeds from collaborative and social media inputs.",
+    tags: ["Backend", "Streaming", "Real-time"], color: "gray",
+  },
+  "airflow": {
+    label: "Airflow", role: "Workflow Orchestration",
+    description: "Used to orchestrate ML pipelines and data workflows for TRL + AI/ML systems, managing the scheduling and execution of data processing tasks.",
+    tags: ["DevOps", "Pipeline", "AI/ML"], color: "amber",
+  },
+  "rest api": {
+    label: "REST API", role: "API Protocol",
+    description: "Standard web API protocol used for communication between frontend and backend components in TRL tools. Enables structured data exchange using HTTP methods.",
+    tags: ["Protocol", "API", "Web"], color: "blue",
+  },
+  "grpc": {
+    label: "gRPC", role: "High-Performance RPC",
+    description: "High-performance Remote Procedure Call framework used in enterprise TRL systems for efficient communication between services, especially in AI/ML processing pipelines.",
+    tags: ["Protocol", "API", "Performance"], color: "purple",
+  },
+  "js": {
+    label: "JavaScript (JS)", role: "Frontend Engine",
+    description: "Shorthand for JavaScript. Functions as the frontend engine used to create interactive forms, buttons, and real-time data displays in TRL web applications.",
+    tags: ["Frontend", "Web", "UI"], color: "amber",
+  },
+};
+
+function lookupGlossary(rawLabel) {
+  if (!rawLabel) return null;
+  const key = rawLabel.toLowerCase().trim();
+  if (GLOSSARY[key]) return GLOSSARY[key];
+  for (const [k, v] of Object.entries(GLOSSARY)) {
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return null;
+}
+
+// ─── Matrix Data ──────────────────────────────────────────────────────────────
 const LEVEL_NAMES = {
-      1: "Level 1 — Software",
-  2: "Level 2 — Languages",
-  3: "Level 3 — Hardware",
-   4: "Level 4 — Protocols",
-  5: "Level 5 — Filters",
-  6: "Level 6 — Cloud",
-  7: "Level 7 — Security",
-
+  1: "Level 1 — Software", 2: "Level 2 — Languages", 3: "Level 3 — Hardware",
+  4: "Level 4 — Protocols", 5: "Level 5 — Filters", 6: "Level 6 — Cloud", 7: "Level 7 — Security",
 };
-
-const CHIP_COLORS = {
-    1: "blue",
-  2: "green",
-  3: "gray",
-   4: "purple",
-  5: "amber",
-  6: "teal",
-  7: "coral",
-  
-};
-
+const CHIP_COLORS = { 1: "blue", 2: "green", 3: "gray", 4: "purple", 5: "amber", 6: "teal", 7: "coral" };
 const ROW_COLORS = ["blue", "green", "purple"];
 const COL_COLORS = ["blue", "blue", "blue", "teal", "purple", "coral"];
 const ROWS = ["TRL", "Duration", "Combined"];
 const COLS = ["Tool", "Assessment", "Standalone", "ERP", "AI/ML", "Social"];
 
 const CELLS = {
-  "0-0": {
-    head: "TRL Tool",
-    levels: {
-             1: { Software: ["ESA TRL Calculator", "NASA TRL Worksheet", "Horizon Europe Tool"] },
-      2: { Languages: ["JavaScript", "Excel VBA", "MATLAB", "Python", "PostgreSQL"] },
-      3: { Hardware: ["Laptop", "Browser", "Cloud Server"] },
-      4: { Protocols: ["REST API", "File-based", "RPC", "JSON/XML"] },
-      5: { Accuracy: ["Accuracy", "Ease of Use", "Budget", "Domain fit"] },
-      6: { Cloud: ["AWS", "GCP", "Azure", "CDN"] },
-      7: { Security: ["CrowdStrike", "Defender", "AppLocker", "MFA"] },
- 
-    },
-  },
-  "0-1": {
-    head: "TRL Assessment",
-    levels: {
-         1: { Software: ["Clean-Growth Tool", "eG Technology Assessment"] },
-      2: { Languages: ["JavaScript", "Python", ".NET", "Java (ESA)"] },
-      3: { Hardware: ["Standard PC", "Workstation", "Browser System"] },
-      4: { Protocols: ["Client-Server", "gRPC", "DB API"] },
-
-      5: { Criteria: ["Accuracy", "Reliability", "Flexibility", "Repeatability"] },
-      6: { Cloud: ["AWS", "Azure", "GCP"] },
-      7: { Security: ["Splunk", "QRadar", "ELK Stack"] },
-     
-    },
-  },
-  "0-2": {
-    head: "Standalone TRL",
-    levels: {
-        1: { Software: ["NASA DAU Tool", "Innovation Assessment"] },
-      2: { Languages: ["JavaScript", "Excel VBA", "HTML", "CSS"] },
-      3: { Hardware: ["Laptop"] },
-      4: { Protocols: ["Local Pipeline", "CLI Tools", "File I/O"] },
-
-      5: { Filters: ["Budget", "Efficiency", "Simplicity"] },
-      6: { Cloud: ["GCP", "AWS"] },
-      7: { Security: ["BitLocker", "Malwarebytes"] },
-      
-    },
-  },
-  "0-3": {
-    head: "TRL + ERP",
-    levels: {
-         1: { Software: ["Siemens Teamcenter", "SAP PLM"] },
-      2: { Languages: ["Java", "C++", "JS", "Angular", "ABAP", "SAP HANA SQL"] },
-      3: { Hardware: ["Engineering Workstation", "PLM Server Cluster", "Enterprise Data Center"] },
-      4: { Protocols: ["REST + SQL", "SOAP", "Event Driven"] },
-      5: { Filters: ["Scalability", "Security", "Integration"] },
-      6: { Cloud: ["Azure", "SAP Cloud"] },
-      7: { Security: ["SAP Security", "Oracle Vault"] },
-     },
-  },
-  "0-4": {
-    head: "TRL + AI/ML",
-    levels: {  1: { Software: ["CARE AI", "ESA AI Evaluator"] },
-      2: { Languages: ["Python", "MATLAB", "JavaScript"] },
-      3: { Hardware: ["GPU/CPU ML Servers", "HPC Workstation", "Cloud Server"] },
-      4: { Protocols: ["FastAPI", "gRPC", "Airflow", "REST"] },
-      5: { Filters: ["Automation", "Intelligence", "Accuracy"] },
-      6: { Cloud: ["AWS", "GCP", "Azure"] },
-      7: { Security: ["Darktrace", "Defender Cloud"] },
-    
-    },
-  },
-  "0-5": {
-    head: "TRL + Social",
-    levels: {
-          1: { Software: ["READINESSnavigator", "Kooplex Platform"] },
-      2: { Languages: ["Java", "Python", "Docker", "Eclipse RCP"] },
-      3: { Hardware: ["Secure Enterprise Server", "Cloud HPC", "Private Cluster"] },
-      5: { Filters: ["Real-time", "Compatibility", "Reach"] },
-      4: { Protocols: ["Kafka", "REST APIs", "Event Driven"] },
-      6: { Cloud: ["AWS", "GCP"] },
-      7: { Security: ["Zscaler", "Cisco Umbrella"] },
-    
-    },
-  },
-  "1-0": {
-    head: "Duration Tool",
-    levels: {
-           1: { Software: ["Jira", "MS Project", "Primavera"] },
-      2: { Languages: ["JavaScript", "C/Java/Python", "MATLAB"] },
-      3: { Hardware: ["Personal Browser", "Windows Workstation"] },
-      4: { Protocols: ["JavaScript", "C/Java/Python", "MATLAB", "WebSocket"] },
-      5: { Filters: ["Ease of Use", "Speed", "Budget", "Accuracy"] },
-      6: { Cloud: ["AWS", "Azure", "GCP"] },
-      7: { Security: ["CrowdStrike", "Defender"] },
-   
-    },
-  },
-  "1-1": {
-    head: "Duration Assessment",
-    levels: {
-           1: { Software: ["SEER-SEM", "SLIM Estimate"] },
-      2: { Languages: ["C++", "C#", ".NET"] },
-      3: { Hardware: ["Engineering Workstation", "Personal Computer"] },
-      4: { Protocols: ["C++", "C#", ".NET API"] },
-      5: { Filters: ["Accuracy", "Reliability", "Cost model"] },
-      6: { Cloud: ["AWS", "Azure"] },
-      7: { Security: ["Splunk", "ELK"] },
-   
-    },
-  },
-  "1-2": {
-    head: "Standalone Duration",
-    levels: {
-            1: { Software: ["COCOMO II", "SEER SIM"] },
-      2: { Languages: ["C/C++", "Python", "MATLAB", "JavaScript"] },
-      3: { Hardware: ["Windows PC", "Workstation"] },
-      4: { Protocols: ["C/C++", "CLI pipeline", "Local DB"] },
-      5: { Filters: ["Budget", "Efficiency", "Portability"] },
-      6: { Cloud: ["GCP", "AWS"] },
-      7: { Security: ["BitLocker", "Local AV"] },
-  
-    },
-  },
-  "1-3": {
-    head: "Duration + ERP",
-    levels: {
-         1: { Software: ["SAP S/4HANA", "Odoo ERP"] },
-      2: { Languages: ["ABAP", "SAP HANA DB", ".NET", "PostgreSQL"] },
-      3: { Hardware: ["Enterprise Server", "Oracle Cloud", "Enterprise Windows Server"] },
-      4: { Protocols: ["ABAP", "SAP HANA DB", ".NET", "PostgreSQL"] },
-      5: { Filters: ["Scalability", "Security", "ERP fit"] },
-      6: { Cloud: ["Azure", "SAP Cloud", "Oracle Cloud"] },
-      7: { Security: ["SAP Security", "Oracle Vault"] },
-     
-    },
-  },
-  "1-4": {
-    head: "Duration + AI/ML",
-    levels: {
-          1: { Software: ["Forecast AI", "ALICE Tech"] },
-      2: { Languages: ["Python", "GraphQL", "C++"] },
-      3: { Hardware: ["Distributed CPU/GPU Cloud", "HPC Servers"] },
-      4: { Protocols: ["Python", "GraphQL", "C++", "ML APIs"] },
-      5: { Filters: ["Automation", "Intelligence", "Predictive"] },
-      6: { Cloud: ["AWS", "GCP", "Azure"] },
-      7: { Security: ["Darktrace", "Defender Cloud"] },
-    
-    },
-  },
-  "1-5": {
-    head: "Duration + Social",
-    levels: {
-             1: { Software: ["ClickUp AI", "Notion AI"] },
-      2: { Languages: ["JavaScript", "REST", "Cloud APIs"] },
-      3: { Hardware: ["Cloud Workspace", "Private Company Server"] },
-      4: { Protocols: ["REST API", "WebSocket", "Cloud Sync"] },
-      5: { Filters: ["Real-time", "Collaboration", "Cloud-native"] },
-      6: { Cloud: ["AWS", "GCP", "Cloud Workspace"] },
-      7: { Security: ["Zscaler", "Cisco Umbrella"] },
- 
-    },
-  },
-  "2-0": {
-    head: "Combined Tool",
-    levels: {
-         1: { Software: ["NASA TAT-C + OpenMDAO", "SEER SEM", "ANSYS ModelCenter"] },
-      2: { Languages: ["Python", "C++", ".NET", "MATLAB"] },
-      3: { Hardware: ["HPC Workstation", "Simulation Servers", "Enterprise PC"] },
-      4: { Protocols: ["Python", "C++", ".NET", "MATLAB"] },
-      5: { Filters: ["Accuracy", "Completeness", "Efficiency"] },
-      6: { Cloud: ["AWS", "Azure", "GCP"] },
-      7: { Security: ["CrowdStrike", "Splunk"] },
-     
-    },
-  },
-  "2-1": {
-    head: "Combined Assessment",
-    levels: {    1: { Software: ["Siemens TeamCenter + Simcenter", "Ansys ModelCenter", "IBM ELM"] },
-      2: { Languages: ["C++", "Python", "Java", "Eclipse RCP"] },
-      3: { Hardware: ["Standard Workstation", "GPU Workstation"] },
-      4: { Protocols: ["C++", "Python", "Java", "Eclipse RCP"] },
-      5: { Filters: ["Completeness", "Integration", "Accuracy"] },
-      6: { Cloud: ["AWS", "Azure", "GCP"] },
-      7: { Security: ["Splunk", "QRadar", "ELK"] },
-  
-    },
-  },
-  "2-2": {
-    head: "Standalone Combined",
-    levels: {   1: { Software: ["ESA TRL Calc + COCOMO Estimation"] },
-      2: { Languages: ["Python", "Java", "MATLAB", "SQL DB"] },
-      3: { Hardware: ["Standard PC"] },
-      4: { Protocols: ["Python", "Java", "MATLAB", "SQL DB"] },
-      5: { Filters: ["Budget", "Simplicity", "Portability"] },
-      6: { Cloud: ["GCP", "AWS"] },
-      7: { Security: ["BitLocker", "Local DB encrypt"] },
-   
-    },
-  },
-  "2-3": {
-    head: "Combined + ERP",
-    levels: {    1: { Software: ["Siemens Teamcenter + SAP ERP", "Oracle Primavera + ERP", "SAP PPM"] },
-      2: { Languages: ["Java", "C++", ".NET", "Oracle DB", "ABAP"] },
-      3: { Hardware: ["Enterprise Servers", "Private Data Center", "Cloud"] },
-      4: { Protocols: ["Java", "C++", ".NET", "Oracle DB", "ABAP"] },
-      5: { Filters: ["Scalability", "Security", "Integration"] },
-      6: { Cloud: ["Azure", "SAP Cloud", "Oracle Cloud"] },
-      7: { Security: ["SAP Security", "Oracle Vault", "IBM Maximo"] },
-  
-    },
-  },
-  "2-4": {
-    head: "Combined + AI/ML",
-    levels: {
-     1: { Software: ["IBM ELM", "Siemens + Predictive Analytics", "NASA OpenMBEE"] },
-      2: { Languages: ["Java", "C++", "JavaScript", "Python"] },
-      3: { Hardware: ["Industrial Servers", "HPC Cluster", "Research Workstation"] }, 
-      4: { Protocols: ["Java", "C++", "JavaScript", "Python", "ML APIs"] },
-      5: { Filters: ["Automation", "Intelligence", "Predictive"] },
-      6: { Cloud: ["AWS", "GCP", "Azure"] },
-      7: { Security: ["Darktrace", "Defender Cloud", "IBM QRadar"] },
-     
-    },
-  },
-  "2-5": {
-    head: "Combined + Social",
-    levels: { 1: { Software: ["IBM ELM", "Siemens + Predictive Analytics", "Oracle Primavera + AI Risk"] },
-      2: { Languages: ["Python", "C++", "Java", "PL/SQL"] },
-      3: { Hardware: ["Enterprise Workstation", "Industrial Server", "Cloud Server"] },
-      4: { Protocols: ["Python", "C++", "Java", "PL/SQL"] },
-      5: { Filters: ["Real-time", "Collaboration", "Integration"] },
-      6: { Cloud: ["AWS", "GCP", "Azure"] },
-      7: { Security: ["Zscaler", "Cisco Umbrella", "IBM QRadar"] },
-     
-    },
-  },
+  "0-0": { head: "TRL Tool", levels: { 1: { Software: ["ESA TRL Calculator", "NASA TRL Worksheet", "Horizon Europe Tool"] }, 2: { Languages: ["JavaScript", "Excel VBA", "MATLAB", "Python", "PostgreSQL"] }, 3: { Hardware: ["Laptop", "Browser", "Cloud Server"] }, 4: { Protocols: ["REST API", "File-based", "RPC", "JSON/XML"] }, 5: { Accuracy: ["Accuracy", "Ease of Use", "Budget", "Domain fit"] }, 6: { Cloud: ["AWS", "GCP", "Azure", "CDN"] }, 7: { Security: ["CrowdStrike", "Defender", "AppLocker", "MFA"] } } },
+  "0-1": { head: "TRL Assessment", levels: { 1: { Software: ["Clean-Growth Tool", "eG Technology Assessment"] }, 2: { Languages: ["JavaScript", "Python", ".NET", "Java (ESA)"] }, 3: { Hardware: ["Standard PC", "Workstation", "Browser System"] }, 4: { Protocols: ["Client-Server", "gRPC", "DB API"] }, 5: { Criteria: ["Accuracy", "Reliability", "Flexibility", "Repeatability"] }, 6: { Cloud: ["AWS", "Azure", "GCP"] }, 7: { Security: ["Splunk", "QRadar", "ELK Stack"] } } },
+  "0-2": { head: "Standalone TRL", levels: { 1: { Software: ["NASA DAU Tool", "Innovation Assessment"] }, 2: { Languages: ["JavaScript", "Excel VBA", "HTML", "CSS"] }, 3: { Hardware: ["Laptop"] }, 4: { Protocols: ["Local Pipeline", "CLI Tools", "File I/O"] }, 5: { Filters: ["Budget", "Efficiency", "Simplicity"] }, 6: { Cloud: ["GCP", "AWS"] }, 7: { Security: ["BitLocker", "Malwarebytes"] } } },
+  "0-3": { head: "TRL + ERP", levels: { 1: { Software: ["Siemens Teamcenter", "SAP PLM"] }, 2: { Languages: ["Java", "C++", "JS", "Angular", "ABAP", "SAP HANA SQL"] }, 3: { Hardware: ["Engineering Workstation", "PLM Server Cluster", "Enterprise Data Center"] }, 4: { Protocols: ["REST + SQL", "SOAP", "Event Driven"] }, 5: { Filters: ["Scalability", "Security", "Integration"] }, 6: { Cloud: ["Azure", "SAP Cloud"] }, 7: { Security: ["SAP Security", "Oracle Vault"] } } },
+  "0-4": { head: "TRL + AI/ML", levels: { 1: { Software: ["CARE AI", "ESA AI Evaluator"] }, 2: { Languages: ["Python", "MATLAB", "JavaScript"] }, 3: { Hardware: ["GPU/CPU ML Servers", "HPC Workstation", "Cloud Server"] }, 4: { Protocols: ["FastAPI", "gRPC", "Airflow", "REST"] }, 5: { Filters: ["Automation", "Intelligence", "Accuracy"] }, 6: { Cloud: ["AWS", "GCP", "Azure"] }, 7: { Security: ["Darktrace", "Defender Cloud"] } } },
+  "0-5": { head: "TRL + Social", levels: { 1: { Software: ["READINESSnavigator", "Kooplex Platform"] }, 2: { Languages: ["Java", "Python", "Docker", "Eclipse RCP"] }, 3: { Hardware: ["Secure Enterprise Server", "Cloud HPC", "Private Cluster"] }, 4: { Protocols: ["Kafka", "REST APIs", "Event Driven"] }, 5: { Filters: ["Real-time", "Compatibility", "Reach"] }, 6: { Cloud: ["AWS", "GCP"] }, 7: { Security: ["Zscaler", "Cisco Umbrella"] } } },
+  "1-0": { head: "Duration Tool", levels: { 1: { Software: ["Jira", "MS Project", "Primavera"] }, 2: { Languages: ["JavaScript", "C/Java/Python", "MATLAB"] }, 3: { Hardware: ["Personal Browser", "Windows Workstation"] }, 4: { Protocols: ["JavaScript", "C/Java/Python", "MATLAB", "WebSocket"] }, 5: { Filters: ["Ease of Use", "Speed", "Budget", "Accuracy"] }, 6: { Cloud: ["AWS", "Azure", "GCP"] }, 7: { Security: ["CrowdStrike", "Defender"] } } },
+  "1-1": { head: "Duration Assessment", levels: { 1: { Software: ["SEER-SEM", "SLIM Estimate"] }, 2: { Languages: ["C++", "C#", ".NET"] }, 3: { Hardware: ["Engineering Workstation", "Personal Computer"] }, 4: { Protocols: ["C++", "C#", ".NET API"] }, 5: { Filters: ["Accuracy", "Reliability", "Cost model"] }, 6: { Cloud: ["AWS", "Azure"] }, 7: { Security: ["Splunk", "ELK"] } } },
+  "1-2": { head: "Standalone Duration", levels: { 1: { Software: ["COCOMO II", "SEER SIM"] }, 2: { Languages: ["C/C++", "Python", "MATLAB", "JavaScript"] }, 3: { Hardware: ["Windows PC", "Workstation"] }, 4: { Protocols: ["C/C++", "CLI pipeline", "Local DB"] }, 5: { Filters: ["Budget", "Efficiency", "Portability"] }, 6: { Cloud: ["GCP", "AWS"] }, 7: { Security: ["BitLocker", "Local AV"] } } },
+  "1-3": { head: "Duration + ERP", levels: { 1: { Software: ["SAP S/4HANA", "Odoo ERP"] }, 2: { Languages: ["ABAP", "SAP HANA DB", ".NET", "PostgreSQL"] }, 3: { Hardware: ["Enterprise Server", "Oracle Cloud", "Enterprise Windows Server"] }, 4: { Protocols: ["ABAP", "SAP HANA DB", ".NET", "PostgreSQL"] }, 5: { Filters: ["Scalability", "Security", "ERP fit"] }, 6: { Cloud: ["Azure", "SAP Cloud", "Oracle Cloud"] }, 7: { Security: ["SAP Security", "Oracle Vault"] } } },
+  "1-4": { head: "Duration + AI/ML", levels: { 1: { Software: ["Forecast AI", "ALICE Tech"] }, 2: { Languages: ["Python", "GraphQL", "C++"] }, 3: { Hardware: ["Distributed CPU/GPU Cloud", "HPC Servers"] }, 4: { Protocols: ["Python", "GraphQL", "C++", "ML APIs"] }, 5: { Filters: ["Automation", "Intelligence", "Predictive"] }, 6: { Cloud: ["AWS", "GCP", "Azure"] }, 7: { Security: ["Darktrace", "Defender Cloud"] } } },
+  "1-5": { head: "Duration + Social", levels: { 1: { Software: ["ClickUp AI", "Notion AI"] }, 2: { Languages: ["JavaScript", "REST", "Cloud APIs"] }, 3: { Hardware: ["Cloud Workspace", "Private Company Server"] }, 4: { Protocols: ["REST API", "WebSocket", "Cloud Sync"] }, 5: { Filters: ["Real-time", "Collaboration", "Cloud-native"] }, 6: { Cloud: ["AWS", "GCP", "Cloud Workspace"] }, 7: { Security: ["Zscaler", "Cisco Umbrella"] } } },
+  "2-0": { head: "Combined Tool", levels: { 1: { Software: ["NASA TAT-C + OpenMDAO", "SEER SEM", "ANSYS ModelCenter"] }, 2: { Languages: ["Python", "C++", ".NET", "MATLAB"] }, 3: { Hardware: ["HPC Workstation", "Simulation Servers", "Enterprise PC"] }, 4: { Protocols: ["Python", "C++", ".NET", "MATLAB"] }, 5: { Filters: ["Accuracy", "Completeness", "Efficiency"] }, 6: { Cloud: ["AWS", "Azure", "GCP"] }, 7: { Security: ["CrowdStrike", "Splunk"] } } },
+  "2-1": { head: "Combined Assessment", levels: { 1: { Software: ["Siemens TeamCenter + Simcenter", "Ansys ModelCenter", "IBM ELM"] }, 2: { Languages: ["C++", "Python", "Java", "Eclipse RCP"] }, 3: { Hardware: ["Standard Workstation", "GPU Workstation"] }, 4: { Protocols: ["C++", "Python", "Java", "Eclipse RCP"] }, 5: { Filters: ["Completeness", "Integration", "Accuracy"] }, 6: { Cloud: ["AWS", "Azure", "GCP"] }, 7: { Security: ["Splunk", "QRadar", "ELK"] } } },
+  "2-2": { head: "Standalone Combined", levels: { 1: { Software: ["ESA TRL Calc + COCOMO Estimation"] }, 2: { Languages: ["Python", "Java", "MATLAB", "SQL DB"] }, 3: { Hardware: ["Standard PC"] }, 4: { Protocols: ["Python", "Java", "MATLAB", "SQL DB"] }, 5: { Filters: ["Budget", "Simplicity", "Portability"] }, 6: { Cloud: ["GCP", "AWS"] }, 7: { Security: ["BitLocker", "Local DB encrypt"] } } },
+  "2-3": { head: "Combined + ERP", levels: { 1: { Software: ["Siemens Teamcenter + SAP ERP", "Oracle Primavera + ERP", "SAP PPM"] }, 2: { Languages: ["Java", "C++", ".NET", "Oracle DB", "ABAP"] }, 3: { Hardware: ["Enterprise Servers", "Private Data Center", "Cloud"] }, 4: { Protocols: ["Java", "C++", ".NET", "Oracle DB", "ABAP"] }, 5: { Filters: ["Scalability", "Security", "Integration"] }, 6: { Cloud: ["Azure", "SAP Cloud", "Oracle Cloud"] }, 7: { Security: ["SAP Security", "Oracle Vault", "IBM Maximo"] } } },
+  "2-4": { head: "Combined + AI/ML", levels: { 1: { Software: ["IBM ELM", "Siemens + Predictive Analytics", "NASA OpenMBEE"] }, 2: { Languages: ["Java", "C++", "JavaScript", "Python"] }, 3: { Hardware: ["Industrial Servers", "HPC Cluster", "Research Workstation"] }, 4: { Protocols: ["Java", "C++", "JavaScript", "Python", "ML APIs"] }, 5: { Filters: ["Automation", "Intelligence", "Predictive"] }, 6: { Cloud: ["AWS", "GCP", "Azure"] }, 7: { Security: ["Darktrace", "Defender Cloud", "IBM QRadar"] } } },
+  "2-5": { head: "Combined + Social", levels: { 1: { Software: ["IBM ELM", "Siemens + Predictive Analytics", "Oracle Primavera + AI Risk"] }, 2: { Languages: ["Python", "C++", "Java", "PL/SQL"] }, 3: { Hardware: ["Enterprise Workstation", "Industrial Server", "Cloud Server"] }, 4: { Protocols: ["Python", "C++", "Java", "PL/SQL"] }, 5: { Filters: ["Real-time", "Collaboration", "Integration"] }, 6: { Cloud: ["AWS", "GCP", "Azure"] }, 7: { Security: ["Zscaler", "Cisco Umbrella", "IBM QRadar"] } } },
 };
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
+// ─── Palette ──────────────────────────────────────────────────────────────────
 const palette = {
-  blue:   { bg: "#E6F1FB", dark: "#0C447C", mid: "#378ADD", light: "#B5D4F4" },
-  green:  { bg: "#EAF3DE", dark: "#27500A", mid: "#639922", light: "#C0DD97" },
-  purple: { bg: "#EEEDFE", dark: "#3C3489", mid: "#7F77DD", light: "#CECBF6" },
-  teal:   { bg: "#E1F5EE", dark: "#085041", mid: "#1D9E75", light: "#9FE1CB" },
-  coral:  { bg: "#FAECE7", dark: "#993C1D", mid: "#D85A30", light: "#F5C4B3" },
-  amber:  { bg: "#FAEEDA", dark: "#854F0B", mid: "#BA7517", light: "#FAC775" },
-  gray:   { bg: "#F1EFE8", dark: "#444441", mid: "#888780", light: "#D3D1C7" },
+  blue:   { bg: "#DBEAFE", dark: "#1E3A8A", mid: "#2563EB", light: "#93C5FD", text: "#1E3A8A" },
+  green:  { bg: "#DCFCE7", dark: "#14532D", mid: "#16A34A", light: "#86EFAC", text: "#14532D" },
+  purple: { bg: "#EDE9FE", dark: "#3B0764", mid: "#7C3AED", light: "#C4B5FD", text: "#3B0764" },
+  teal:   { bg: "#CCFBF1", dark: "#0F4C37", mid: "#0D9488", light: "#5EEAD4", text: "#0F4C37" },
+  coral:  { bg: "#FFE4E6", dark: "#881337", mid: "#E11D48", light: "#FDA4AF", text: "#881337" },
+  amber:  { bg: "#FEF3C7", dark: "#78350F", mid: "#D97706", light: "#FCD34D", text: "#78350F" },
+  gray:   { bg: "#F1F5F9", dark: "#1E293B", mid: "#64748B", light: "#CBD5E1", text: "#1E293B" },
 };
 
-function chipStyle(colorKey) {
-  const c = palette[colorKey] || palette.gray;
-  return {
-    background: c.bg,
-    color: c.dark,
-    border: `0.5px solid ${c.light}`,
-    borderRadius: 5,
-    fontSize: 9,
-    fontWeight: 600,
-    padding: "2px 6px",
-    display: "inline-block",
-    lineHeight: 1.5,
-    whiteSpace: "nowrap",
-  };
-}
+function accentColor(key) { return palette[key]?.mid || "#64748B"; }
 
-function accentColor(key) {
-  return palette[key]?.mid || "#888";
-}
+// ─── Detail Panel ─────────────────────────────────────────────────────────────
+function DetailPanel({ selection, onClose }) {
+  const { item, cellHead, glossary } = selection;
+  const c = palette[glossary?.color || "blue"];
+  const hasGlossary = !!glossary;
 
-// ─── Sidebar Button ──────────────────────────────────────────────────────────
-
-function LvlBtn({ lvl, active, onClick }) {
-  const c = palette.purple;
   return (
-    <button
-      onClick={onClick}
-      style={{
-        width: 44,
-        height: 44,
-        borderRadius: 9,
-        border: active ? `1.5px solid ${c.mid}` : "0.5px solid #d0cfc8",
-        background: active ? c.bg : "#fff",
-        cursor: "pointer",
-        fontSize: 9,
-        fontWeight: 700,
-        color: active ? c.dark : "#888",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 1,
-        transition: "all .15s",
-        lineHeight: 1,
-      }}
-    >
-      <span style={{ fontSize: 11 }}>L{lvl}</span>
-      <span style={{ fontSize: 8, opacity: 0.7, fontWeight: 400 }}>
-        {LEVEL_NAMES[lvl].split("—")[1]?.trim().slice(0, 5)}
-      </span>
-    </button>
+    <div style={{
+      margin: "0 20px 20px",
+      borderRadius: 16,
+      border: `1.5px solid ${c.light}`,
+      background: "#fff",
+      overflow: "hidden",
+      boxShadow: `0 8px 32px ${c.mid}18, 0 2px 8px rgba(0,0,0,0.06)`,
+      animation: "slideDown 0.28s cubic-bezier(.4,0,.2,1)",
+    }}>
+      <style>{`
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      {/* Accent bar */}
+      <div style={{ height: 5, background: `linear-gradient(90deg, ${c.mid}, ${c.mid}77)` }} />
+
+      <div style={{ padding: "22px 26px 26px" }}>
+        {/* Top row */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 5 }}>
+              <span style={{ fontSize: 22, fontWeight: 900, color: "#0F172A", letterSpacing: "-0.03em" }}>
+                {hasGlossary ? glossary.label : item}
+              </span>
+              {hasGlossary && (
+                <span style={{
+                  fontSize: 11, fontWeight: 700, color: c.text,
+                  background: c.bg, border: `1px solid ${c.light}`,
+                  borderRadius: 20, padding: "3px 12px", letterSpacing: "0.04em",
+                }}>
+                  {glossary.role}
+                </span>
+              )}
+            </div>
+            <div style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>
+              Context: <span style={{ color: c.mid, fontWeight: 700 }}>{cellHead}</span>
+            </div>
+          </div>
+          <button onClick={onClose} style={{
+            width: 32, height: 32, borderRadius: 8, border: "1.5px solid #E2E8F0",
+            background: "#F8FAFC", cursor: "pointer", fontSize: 14, color: "#64748B",
+            display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700,
+            flexShrink: 0,
+          }}>✕</button>
+        </div>
+
+        {hasGlossary ? (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 130px", gap: 22, alignItems: "start" }}>
+            <div>
+              {/* Description box */}
+              <div style={{
+                fontSize: 14, color: "#1E293B", lineHeight: 1.8, fontWeight: 400,
+                background: "#F8FAFC", borderRadius: 12, padding: "16px 18px",
+                border: "1px solid #E2E8F0",
+                marginBottom: (glossary.note || glossary.libraries) ? 14 : 0,
+              }}>
+                {glossary.description}
+              </div>
+
+              {/* Libraries */}
+              {glossary.libraries && (
+                <div style={{ marginBottom: glossary.note ? 14 : 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+                    Key Libraries
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                    {glossary.libraries.map((lib, i) => (
+                      <span key={i} style={{
+                        fontSize: 12, fontWeight: 700, padding: "5px 11px",
+                        borderRadius: 6, background: c.bg, color: c.text,
+                        border: `1px solid ${c.light}`,
+                      }}>{lib}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SQL vs NoSQL note */}
+              {glossary.note && (
+                <div style={{ borderRadius: 12, overflow: "hidden", border: `1.5px solid ${c.light}` }}>
+                  <div style={{
+                    background: c.mid, color: "#fff",
+                    padding: "9px 16px", fontSize: 11, fontWeight: 800,
+                    letterSpacing: "0.06em", textTransform: "uppercase", display: "flex", alignItems: "center", gap: 6,
+                  }}>
+                    <span>⚖</span> {glossary.note.title}
+                  </div>
+                  <div style={{
+                    background: c.bg, padding: "14px 16px",
+                    fontSize: 13, color: c.dark, lineHeight: 1.75, fontWeight: 500,
+                  }}>
+                    {glossary.note.body}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Tags */}
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+                Tags
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {glossary.tags?.map((tag, i) => (
+                  <span key={i} style={{
+                    fontSize: 12, fontWeight: 700, padding: "6px 12px",
+                    borderRadius: 8, background: "#F1F5F9", color: "#334155",
+                    border: "1px solid #E2E8F0", textAlign: "center",
+                  }}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            fontSize: 14, color: "#64748B", lineHeight: 1.7,
+            background: "#F8FAFC", borderRadius: 12, padding: "16px 18px",
+            border: "1px solid #E2E8F0",
+          }}>
+            <span style={{ fontWeight: 700, color: "#0F172A" }}>{item}</span> is used in <span style={{ fontWeight: 700 }}>{cellHead}</span>. Glossary data is not available for this item.
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
-// ─── Matrix Card ─────────────────────────────────────────────────────────────
+// ─── Clickable Chip ───────────────────────────────────────────────────────────
+function ClickableChip({ item, colorKey, cellHead, activeItem, onSelect, size = "sm" }) {
+  const glossary = lookupGlossary(item);
+  const isActive = activeItem === item;
+  const isClickable = !!glossary;
+  const [hover, setHover] = useState(false);
 
-function Sample({ cellKey, cell, globalLevel, accent, onClick }) {
+  const c = palette[colorKey] || palette.gray;
+  const bg = isActive ? c.mid : hover && isClickable ? c.light : c.bg;
+  const color = isActive ? "#fff" : c.text;
+
+  return (
+    <span
+      onClick={() => isClickable && onSelect(item, cellHead, glossary)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: bg, color,
+        border: `1px solid ${isActive ? c.mid : c.light}`,
+        borderRadius: 6,
+        fontSize: size === "lg" ? 13 : 12,
+        fontWeight: 700,
+        padding: size === "lg" ? "6px 14px" : "4px 10px",
+        display: "inline-flex", alignItems: "center", gap: 4,
+        lineHeight: 1.5, whiteSpace: "nowrap", letterSpacing: "0.01em",
+        cursor: isClickable ? "pointer" : "default",
+        transition: "all .15s",
+        boxShadow: isActive ? `0 4px 12px ${c.mid}55` : hover && isClickable ? `0 2px 8px ${c.mid}33` : "none",
+        transform: hover && isClickable && !isActive ? "translateY(-1px)" : "none",
+        userSelect: "none",
+      }}
+      title={isClickable ? `View glossary: ${item}` : item}
+    >
+      {item}
+      {isClickable && (
+        <span style={{ fontSize: 9, opacity: isActive ? 0.8 : hover ? 0.7 : 0.35, transition: "opacity .15s" }}>
+          {isActive ? "●" : "▸"}
+        </span>
+      )}
+    </span>
+  );
+}
+
+// ─── Matrix Card ──────────────────────────────────────────────────────────────
+function Sample({ cell, globalLevel, accent, onCardClick, activeItem, onChipSelect }) {
   const [hover, setHover] = useState(false);
   const lvlData = cell.levels[globalLevel] || {};
   const items = Object.values(lvlData).flat().slice(0, 3);
@@ -338,346 +453,254 @@ function Sample({ cellKey, cell, globalLevel, accent, onClick }) {
 
   return (
     <div
-      onClick={() => onClick(cellKey, cell, accent)}
+      onClick={() => onCardClick(cell, accent)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        borderRadius: 9,
-        border: hover ? `1px solid ${ac}` : "0.5px solid #dddbd4",
-        background: "#fff",
-        padding: "8px 9px 18px",
-        cursor: "pointer",
-        position: "relative",
-        minHeight: 76,
-        overflow: "hidden",
-        transform: hover ? "translateY(-2px)" : "none",
-        transition: "all .15s",
-        boxSizing: "border-box",
+        borderRadius: 12, border: hover ? `1.5px solid ${ac}` : "1.5px solid #E2E8F0",
+        background: hover ? "#FAFCFF" : "#fff",
+        padding: "14px 14px 22px", cursor: "pointer",
+        position: "relative", minHeight: 100, overflow: "hidden",
+        transform: hover ? "translateY(-3px)" : "none",
+        transition: "all .18s cubic-bezier(.4,0,.2,1)",
+        boxShadow: hover ? `0 8px 24px ${ac}22, 0 2px 8px rgba(0,0,0,0.06)` : "0 1px 4px rgba(0,0,0,0.05)",
       }}
     >
-      {/* top accent bar */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0, left: 0, right: 0,
-          height: 3,
-          borderRadius: "9px 9px 0 0",
-          background: ac,
-        }}
-      />
-      <div style={{ fontSize: 9, fontWeight: 600, color: "#888", marginBottom: 5, lineHeight: 1.2 }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, borderRadius: "12px 12px 0 0", background: `linear-gradient(90deg, ${ac}, ${ac}bb)` }} />
+      <div style={{ fontSize: 12, fontWeight: 800, color: "#1E293B", marginBottom: 9, lineHeight: 1.3 }}>
         {cell.head}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 5 }} onClick={e => e.stopPropagation()}>
         {items.map((item, i) => (
-          <span key={i} style={chipStyle(chipColor)}>{item}</span>
+          <ClickableChip key={i} item={item} colorKey={chipColor} cellHead={cell.head} activeItem={activeItem} onSelect={onChipSelect} />
         ))}
       </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: 4, right: 6,
-          fontSize: 8,
-          color: "#aaa",
-          fontWeight: 500,
-        }}
-      >
+      <div style={{ position: "absolute", bottom: 6, right: 9, fontSize: 9.5, color: ac, fontWeight: 800, opacity: 0.65 }}>
         L{globalLevel}
       </div>
     </div>
   );
 }
 
-// ─── Drill-down Modal ────────────────────────────────────────────────────────
-
-function Modal({ open, onClose, cell, accent, initialLevel }) {
+// ─── Modal ────────────────────────────────────────────────────────────────────
+function Modal({ open, onClose, cell, accent, initialLevel, activeItem, onChipSelect }) {
   const [activeLevel, setActiveLevel] = useState(initialLevel);
-  const orderedLevels = [1,2,3,4,5,6,7];
-
-  // Sync active tab when modal opens
-  React.useEffect(() => {
-    setActiveLevel(initialLevel);
-  }, [initialLevel, open]);
-
+  useEffect(() => { setActiveLevel(initialLevel); }, [initialLevel, open]);
   if (!cell) return null;
+
   const ac = accentColor(accent);
   const lvlData = cell.levels[activeLevel] || {};
   const chipColor = CHIP_COLORS[activeLevel];
 
   return (
-    <div
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,.42)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 999,
-        opacity: open ? 1 : 0,
-        pointerEvents: open ? "auto" : "none",
-        transition: "opacity .18s",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: 14,
-          border: "0.5px solid #dddbd4",
-          width: 500,
-          maxWidth: "94vw",
-          maxHeight: "88vh",
-          overflowY: "auto",
-          padding: 22,
-          position: "relative",
-          transform: open ? "scale(1) translateY(0)" : "scale(.94) translateY(10px)",
-          transition: "transform .18s",
-        }}
-      >
-        {/* close */}
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute", top: 14, right: 14,
-            width: 26, height: 26, borderRadius: 7,
-            border: "0.5px solid #dddbd4", background: "#f5f4f0",
-            cursor: "pointer", fontSize: 13, color: "#666",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-        >
-          ✕
-        </button>
-
-        {/* accent stripe */}
-        <div style={{ height: 3, borderRadius: 3, background: ac, marginBottom: 14 }} />
-        <div style={{ fontSize: 15, fontWeight: 600, color: "#1a1a18", marginBottom: 3 }}>
-          {cell.head}
+    <div onClick={(e) => e.target === e.currentTarget && onClose()} style={{
+      position: "fixed", inset: 0, background: "rgba(15,23,42,0.55)",
+      backdropFilter: "blur(4px)", display: "flex", alignItems: "center",
+      justifyContent: "center", zIndex: 999,
+      opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none", transition: "opacity .2s",
+    }}>
+      <div style={{
+        background: "#fff", borderRadius: 18, border: "1.5px solid #E2E8F0",
+        width: 580, maxWidth: "94vw", maxHeight: "88vh", overflowY: "auto",
+        padding: 28, position: "relative",
+        transform: open ? "scale(1) translateY(0)" : "scale(.95) translateY(16px)",
+        transition: "transform .2s cubic-bezier(.4,0,.2,1)",
+        boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
+      }}>
+        <button onClick={onClose} style={{
+          position: "absolute", top: 18, right: 18, width: 32, height: 32,
+          borderRadius: 8, border: "1.5px solid #E2E8F0", background: "#F8FAFC",
+          cursor: "pointer", fontSize: 14, color: "#475569", fontWeight: 700,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>✕</button>
+        <div style={{ height: 4, borderRadius: 4, background: `linear-gradient(90deg, ${ac}, ${ac}88)`, marginBottom: 18 }} />
+        <div style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", marginBottom: 4, letterSpacing: "-0.02em" }}>{cell.head}</div>
+        <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 18, fontWeight: 600 }}>
+          Click any chip ▸ to open glossary · Switch tabs to explore layers
         </div>
-        <div style={{ fontSize: 11, color: "#888", marginBottom: 14 }}>
-          Click tabs below to drill through depth layers
-        </div>
-
-        {/* tabs */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-          {orderedLevels.map((lvl) => {
-            const isActive = lvl === activeLevel;
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
+          {[1,2,3,4,5,6,7].map((lvl) => {
+            const isA = lvl === activeLevel;
+            const p = palette.purple;
             return (
-              <button
-                key={lvl}
-                onClick={() => setActiveLevel(lvl)}
-                style={{
-                  fontSize: 10,
-                  padding: "4px 10px",
-                  borderRadius: 7,
-                  border: isActive ? `1.5px solid ${palette.purple.mid}` : "0.5px solid #dddbd4",
-                  background: isActive ? palette.purple.bg : "#f5f4f0",
-                  color: isActive ? palette.purple.dark : "#666",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all .12s",
-                }}
-              >
-                {LEVEL_NAMES[lvl]}
-              </button>
+              <button key={lvl} onClick={() => setActiveLevel(lvl)} style={{
+                fontSize: 12, padding: "6px 14px", borderRadius: 8,
+                border: isA ? `2px solid ${p.mid}` : "1.5px solid #E2E8F0",
+                background: isA ? p.mid : "#F8FAFC", color: isA ? "#fff" : "#475569",
+                fontWeight: 700, cursor: "pointer", transition: "all .12s",
+                boxShadow: isA ? `0 4px 12px ${p.mid}44` : "none",
+              }}>{LEVEL_NAMES[lvl].split("—")[1]?.trim()}</button>
             );
           })}
         </div>
-
-        {/* panel */}
-        {Object.entries(lvlData).map(([sectionName, items]) => (
-          <div key={sectionName} style={{ marginBottom: 14 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "#aaa", marginBottom: 7, textTransform: "uppercase", letterSpacing: ".05em" }}>
-              {sectionName}
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+        {Object.entries(lvlData).map(([section, items]) => (
+          <div key={section} style={{ marginBottom: 18 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".08em" }}>{section}</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {items.map((item, i) => (
-                <span key={i} style={{ ...chipStyle(chipColor), fontSize: 12, padding: "4px 10px" }}>
-                  {item}
-                </span>
+                <ClickableChip key={i} item={item} colorKey={chipColor} cellHead={cell.head}
+                  activeItem={activeItem} size="lg"
+                  onSelect={(it, cellH, gloss) => { onChipSelect(it, cellH, gloss); onClose(); }}
+                />
               ))}
             </div>
           </div>
         ))}
-
-        <div style={{ fontSize: 10, color: "#bbb", marginTop: 6 }}>
-          Click tabs to drill through levels ↓
-        </div>
       </div>
     </div>
   );
 }
 
-// ─── Main Dashboard ──────────────────────────────────────────────────────────
+// ─── Sidebar Button ───────────────────────────────────────────────────────────
+function LvlBtn({ lvl, active, onClick }) {
+  const c = palette.purple;
+  return (
+    <button onClick={onClick} style={{
+      width: 52, height: 52, borderRadius: 12,
+      border: active ? `2px solid ${c.mid}` : "1.5px solid #E2E8F0",
+      background: active ? c.mid : "#fff", cursor: "pointer",
+      fontWeight: 800, color: active ? "#fff" : "#475569",
+      display: "flex", flexDirection: "column", alignItems: "center",
+      justifyContent: "center", gap: 2, transition: "all .15s", lineHeight: 1,
+      boxShadow: active ? `0 4px 12px ${c.mid}44` : "0 1px 3px rgba(0,0,0,0.06)",
+    }}>
+      <span style={{ fontSize: 13, fontWeight: 900 }}>L{lvl}</span>
+      <span style={{ fontSize: 8.5, opacity: active ? 0.85 : 0.6, fontWeight: 600 }}>
+        {LEVEL_NAMES[lvl].split("—")[1]?.trim().slice(0, 5)}
+      </span>
+    </button>
+  );
+}
 
+// ─── Main Dashboard ───────────────────────────────────────────────────────────
 export default function TRLMatrixDashboard() {
-  const [globalLevel, setGlobalLevel] = useState(5);
+  const [globalLevel, setGlobalLevel] = useState(2);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCell, setModalCell] = useState(null);
   const [modalAccent, setModalAccent] = useState("blue");
-
-  const sidebarLevels = [1,2,3,4,5,6,7]
+  const [activeSelection, setActiveSelection] = useState(null);
+  const detailRef = useRef(null);
 
   const colHeaders = [
-    { label: "Tool",       color: "blue"   },
-    { label: "Assessment", color: "blue"   },
-    { label: "Standalone", color: "blue"   },
-    { label: "+ ERP",      color: "teal"   },
-    { label: "+ AI/ML",    color: "purple" },
-    { label: "+ Social",   color: "coral"  },
+    { label: "Tool", color: "blue" }, { label: "Assessment", color: "blue" },
+    { label: "Standalone", color: "blue" }, { label: "+ ERP", color: "teal" },
+    { label: "+ AI/ML", color: "purple" }, { label: "+ Social", color: "coral" },
   ];
 
-  function handleCardClick(key, cell, accent) {
-    setModalCell(cell);
-    setModalAccent(accent);
-    setModalOpen(true);
+  function handleChipSelect(item, cellHead, glossary) {
+    setActiveSelection({ item, cellHead, glossary });
+    setTimeout(() => {
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
   }
 
   return (
     <><Header/>
-    <div style={{ display: "flex", minHeight: 600, fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#fafaf8" }}>
-      {/* ── Sidebar ── */}
-      <div
-        style={{
-          width: 64,
-          flexShrink: 0,
-          background: "#f5f4f0",
-          borderRight: "0.5px solid #dddbd4",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "14px 0",
-          gap: 6,
-        }}
-      >
-        <div
-          style={{
-            fontSize: 8,
-            color: "#aaa",
-            textTransform: "uppercase",
-            letterSpacing: ".06em",
-            writingMode: "vertical-lr",
-            transform: "rotate(180deg)",
-            marginBottom: 10,
-          }}
-        >
+    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif", background: "#F1F5F9" }}>
+      {/* Sidebar */}
+      <div style={{
+        width: 76, flexShrink: 0, background: "#fff",
+        borderRight: "1.5px solid #E2E8F0", display: "flex",
+        flexDirection: "column", alignItems: "center", padding: "20px 0", gap: 8,
+        boxShadow: "2px 0 8px rgba(0,0,0,0.04)",
+      }}>
+        <div style={{ fontSize: 9, color: "#94A3B8", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 800, writingMode: "vertical-lr", transform: "rotate(180deg)", marginBottom: 12 }}>
           Levels
         </div>
-        {sidebarLevels.map((lvl) => (
-          <LvlBtn
-            key={lvl}
-            lvl={lvl}
-            active={globalLevel === lvl}
-            onClick={() => setGlobalLevel(lvl)}
-          />
-        ))}
+        {[1,2,3,4,5,6,7].map(lvl => <LvlBtn key={lvl} lvl={lvl} active={globalLevel === lvl} onClick={() => setGlobalLevel(lvl)} />)}
       </div>
 
-      {/* ── Main ── */}
+      {/* Main */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* Topbar */}
-        <div
-          style={{
-            padding: "10px 16px 9px",
-            borderBottom: "0.5px solid #dddbd4",
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            background: "#fff",
-          }}
-        >
+        <div style={{
+          padding: "16px 24px", borderBottom: "1.5px solid #E2E8F0",
+          display: "flex", alignItems: "center", gap: 16, background: "#fff",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#1a1a18" }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em" }}>
               TRL &amp; Duration Estimation Matrix
             </div>
-            <div style={{ fontSize: 11, color: "#888", display: "flex", gap: 4 }}>
+            <div style={{ fontSize: 13, color: "#64748B", display: "flex", gap: 6, marginTop: 2, fontWeight: 500, flexWrap: "wrap" }}>
               <span>Ground Level</span>
               <span style={{ opacity: .4 }}>›</span>
-              <span style={{ color: palette.purple.mid }}>{LEVEL_NAMES[globalLevel]}</span>
+              <span style={{ color: palette.purple.mid, fontWeight: 700 }}>{LEVEL_NAMES[globalLevel]}</span>
+              {activeSelection && (
+                <><span style={{ opacity: .4 }}>›</span>
+                <span style={{ color: palette.teal.mid, fontWeight: 700 }}>Viewing: {activeSelection.item}</span></>
+              )}
             </div>
           </div>
-          {/* Legend */}
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+            <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 6, padding: "4px 10px" }}>
+              ▸ Click any chip to explore
+            </span>
             {[["blue","TRL"],["green","Duration"],["purple","Combined"]].map(([c,label]) => (
-              <div key={c} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#888" }}>
-                <div style={{ width: 8, height: 8, borderRadius: 2, background: palette[c].mid }} />
-                {label}
+              <div key={c} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#475569", fontWeight: 600 }}>
+                <div style={{ width: 10, height: 10, borderRadius: 3, background: palette[c].mid }} />{label}
               </div>
             ))}
           </div>
         </div>
 
         {/* Matrix */}
-        <div style={{ flex: 1, padding: 12, overflowY: "auto" }}>
-          {/* Column headers */}
-          <div style={{ display: "grid", gridTemplateColumns: "80px repeat(6, 1fr)", gap: 5, marginBottom: 5 }}>
+        <div style={{ flex: 1, padding: "18px 20px 0", overflowY: "auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "90px repeat(6, 1fr)", gap: 8, marginBottom: 8 }}>
             <div />
             {colHeaders.map(({ label, color }, ci) => (
-              <div
-                key={ci}
-                style={{
-                  textAlign: "center",
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: palette[color].dark,
-                  textTransform: "uppercase",
-                  letterSpacing: ".05em",
-                  padding: "3px 2px",
-                }}
-              >
-                {label}
-              </div>
+              <div key={ci} style={{
+                textAlign: "center", fontSize: 11, fontWeight: 800, color: palette[color].dark,
+                textTransform: "uppercase", letterSpacing: ".08em", padding: "5px 4px",
+                background: palette[color].bg, borderRadius: 8, border: `1px solid ${palette[color].light}`,
+              }}>{label}</div>
             ))}
           </div>
 
-          {/* Rows */}
           {ROWS.map((row, ri) => (
-            <div key={ri} style={{ display: "grid", gridTemplateColumns: "80px repeat(6, 1fr)", gap: 5, marginBottom: 5 }}>
-              {/* Row label */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: palette[ROW_COLORS[ri]].mid,
-                  textTransform: "uppercase",
-                  letterSpacing: ".04em",
-                  paddingRight: 7,
-                  lineHeight: 1.3,
-                }}
-              >
-                {row}
+            <div key={ri} style={{ display: "grid", gridTemplateColumns: "90px repeat(6, 1fr)", gap: 8, marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 8 }}>
+                <div style={{
+                  background: palette[ROW_COLORS[ri]].bg, border: `1px solid ${palette[ROW_COLORS[ri]].light}`,
+                  borderRadius: 8, padding: "6px 10px", color: palette[ROW_COLORS[ri]].dark, fontWeight: 800, fontSize: 11,
+                }}>{row}</div>
               </div>
               {COLS.map((col, ci) => {
                 const key = `${ri}-${ci}`;
                 const cell = CELLS[key];
                 const accent = ci >= 3 ? COL_COLORS[ci] : ROW_COLORS[ri];
                 return (
-                  <Sample
-                    key={ci}
-                    cellKey={key}
-                    cell={cell}
-                    globalLevel={globalLevel}
-                    accent={accent}
-                    onClick={handleCardClick}
+                  <Sample key={ci} cell={cell} globalLevel={globalLevel} accent={accent}
+                    onCardClick={(c, a) => { setModalCell(c); setModalAccent(a); setModalOpen(true); }}
+                    activeItem={activeSelection?.item} onChipSelect={handleChipSelect}
                   />
                 );
               })}
             </div>
           ))}
+
+          {/* Spacer so panel doesn't get hidden under content */}
+          <div style={{ height: 16 }} />
+        </div>
+
+        {/* Detail Panel */}
+        <div ref={detailRef}>
+          {activeSelection && (
+            <DetailPanel selection={activeSelection} onClose={() => setActiveSelection(null)} />
+          )}
         </div>
       </div>
 
-      {/* Modal */}
       <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        cell={modalCell}
-        accent={modalAccent}
-        initialLevel={globalLevel}
+        open={modalOpen} onClose={() => setModalOpen(false)}
+        cell={modalCell} accent={modalAccent} initialLevel={globalLevel}
+        activeItem={activeSelection?.item}
+        onChipSelect={(item, cellH, gloss) => {
+          handleChipSelect(item, cellH, gloss);
+          setModalOpen(false);
+        }}
       />
-    </div></>
+    </div>
+    </>
   );
 }

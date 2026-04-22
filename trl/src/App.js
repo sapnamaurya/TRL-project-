@@ -9,6 +9,8 @@ import ProjectSetup from "./pages/ProjectSetup";
 import WorkflowPage from "./components/Workflow";
 import ModulesPage from "./components/Modules";
 import Sample from "./components/Sample"
+import Assessment from "./components/Assessment";
+import Report from "./components/Report";
 function App() {
   return (
     <Router>
@@ -16,11 +18,13 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/home" element={<Home />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/architecture" element={<Architecture />} />
         <Route path="/trl" element={<TRLLevels />} />
         <Route path="/module" element={<ModulesPage />} />
         <Route path="/path" element={<Sample/>} />
+        <Route path="/assessment" element={<Assessment/>} />
+        <Route path="/report" element={<Report/>} />
         
         <Route path="/workflow" element={<WorkflowPage />} />
         <Route path="/project-setup" element={<ProjectSetup />} />

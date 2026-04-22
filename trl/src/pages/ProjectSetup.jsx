@@ -17,7 +17,24 @@ export default function ProjectSetup() {
       return;
     }
 
-    navigate("/trls"); // ya jaha assessment start karna hai
+    // ✅ SAVE PROJECT DATA
+    const projectData = {
+      role,
+      projectName,
+      cluster,
+      lab,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+    };
+
+    localStorage.setItem("projectData", JSON.stringify(projectData));
+
+    // 👉 GO TO ASSESSMENT
+    navigate("/assessment");
+  };
+
+  const handleViewReport = () => {
+    navigate("/report");
   };
 
   return (
@@ -35,7 +52,7 @@ export default function ProjectSetup() {
           <p>4. Click start assessment to proceed with TRL & Time estimation.</p>
         </div>
 
-        {/* Form Section */}
+        {/* Form */}
         <div className="formSection">
 
           <div className="formGroup">
@@ -86,12 +103,10 @@ export default function ProjectSetup() {
             Start Assessment
           </button>
 
-          <button className="reportBtn">
-            View Report
-            <span className="icon">📄</span>
+          <button className="reportBtn" onClick={handleViewReport}>
+            View Report <span className="icon">📄</span>
           </button>
         </div>
-
       </div>
     </>
   );
