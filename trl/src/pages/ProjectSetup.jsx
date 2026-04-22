@@ -103,9 +103,9 @@ export default function ProjectSetup() {
             Start Assessment
           </button>
 
-          <button className="reportBtn" onClick={handleViewReport}>
+          {/* <button className="reportBtn" onClick={handleViewReport}>
             View Report <span className="icon">📄</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </>
