@@ -11,7 +11,10 @@ export default function Report() {
       <Header />
 
       <div className="assessmentContainer">
-        <h2>Final Assessment Report</h2>
+        <h2 style={{    fontSize:" 40px",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: "30px"}}>Final Assessment Review Report</h2>
 
         <p><b>Project:</b> {report.projectName}</p>
         <p><b>Role:</b> {report.role}</p>

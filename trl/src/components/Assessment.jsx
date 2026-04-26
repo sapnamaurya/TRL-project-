@@ -87,7 +87,10 @@ export default function Assessment() {
       <Header />
 
       <div className="assessmentContainer">
-        <h2>TRL Assessment</h2>
+        <h2 style={{    fontSize:" 40px",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: "36px"}}>TRL Assessment</h2>
 
         <div className="questionBox">
           <h3>{questions[currentQ].question}</h3>

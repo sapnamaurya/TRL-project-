@@ -668,6 +668,62 @@ export default function TRLLevels() {
     </tbody>
   </table>
 </div>
+<div className={`screen ${level === "level5" ? "active" : ""}`}>
+  <h1 className="title">Filters For TRL & Time Estimation</h1>
+  <h2 className="subtitle">Level-5</h2>
+
+  <table className="matrix levelTable">
+    <tbody>
+      <tr>
+        <td><b>TRL Tool</b><br/>Accuracy<br/>Ease of Use<br/>Budget</td>
+        <td><b>TRL Assessment</b><br/>Accuracy<br/>Reliability<br/>Flexibility</td>
+        <td><b>Standalone</b><br/>Budget<br/>Efficiency</td>
+        <td><b>ERP</b><br/>Scalability<br/>Security</td>
+        <td><b>AI/ML</b><br/>Automation<br/>Intelligence</td>
+        <td><b>Social</b><br/>Real-time<br/>Compatibility</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div className={`screen ${level === "level6" ? "active" : ""}`}>
+  <h1 className="title">Cloud For TRL & Time Estimation</h1>
+  <h2 className="subtitle">Level-6</h2>
+
+  <table className="matrix levelTable">
+    <tbody>
+      <tr>
+        <td><b>TRL Tool</b><br/>AWS<br/>GCP<br/>Azure</td>
+        <td><b>TRL Assessment</b><br/>AWS<br/>Azure<br/>GCP</td>
+        <td><b>Standalone</b><br/>GCP<br/>AWS</td>
+        <td><b>ERP</b><br/>Azure<br/>SAP Cloud</td>
+        <td><b>AI/ML</b><br/>AWS<br/>GCP<br/>Azure</td>
+        <td><b>Social</b><br/>AWS<br/>GCP</td>
+      </tr>
+    </tbody>
+  </table>
+</div><div className={`screen ${level === "level7" ? "active" : ""}`}>
+  <h1 className="title">Security Tools For TRL & Time Estimation</h1>
+  <h2 className="subtitle">Level-7</h2>
+
+  <table className="matrix levelTable">
+    <tbody>
+      <tr>
+        <td><b>TRL Tool</b><br/>CrowdStrike<br/>Defender<br/>AppLocker</td>
+        <td><b>TRL Assessment</b><br/>Splunk<br/>QRadar<br/>ELK</td>
+        <td><b>Standalone</b><br/>BitLocker<br/>Malwarebytes</td>
+        <td><b>ERP</b><br/>SAP Security<br/>Oracle Vault</td>
+        <td><b>AI/ML</b><br/>Darktrace<br/>Defender Cloud</td>
+        <td><b>Social</b><br/>Zscaler<br/>Cisco Umbrella</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div className="levelStack">
+    <div onClick={() => setLevel("ground")} className="stackLayer l1">
+      BACK
+    </div>
+  </div>
+</div>
     </div>
   );
 }

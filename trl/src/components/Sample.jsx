@@ -226,7 +226,7 @@ const LEVEL_NAMES = {
 const CHIP_COLORS = { 1: "blue", 2: "green", 3: "gray", 4: "purple", 5: "amber", 6: "teal", 7: "coral" };
 const ROW_COLORS = ["blue", "green", "purple"];
 const COL_COLORS = ["blue", "blue", "blue", "teal", "purple", "coral"];
-const ROWS = ["TRL", "Duration", "Combined"];
+const ROWS = ["TRL", "Project Duration", "TRL & Project Duration"];
 const COLS = ["Tool", "Assessment", "Standalone", "ERP", "AI/ML", "Social"];
 
 const CELLS = {

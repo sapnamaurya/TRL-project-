@@ -42,7 +42,7 @@ export default function ProjectSetup() {
       <Header />
 
       <div className="setupContainer">
-        <h2>Project Assessment Setup</h2>
+        <h2>Integrated Solution For TRL & Project Duration Estimation</h2>
 
         {/* Instructions */}
         <div className="instructions">
